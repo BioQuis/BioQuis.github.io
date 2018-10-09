@@ -122,7 +122,7 @@ li.dropdown {
 }
 
 #number {
-	position: absolute; /*fixed*/
+	position: fixed; /*fixed*/
 	bottom: 2px;
 	right: 2px;
 	font-size: 10px;
