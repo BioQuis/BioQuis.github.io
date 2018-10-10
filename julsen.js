@@ -52,6 +52,10 @@ function smallMenu() {
     }
 } 
 
+function MenuIcon(x) {
+    x.classList.toggle("change");
+} 
+
 function loaddata(url){ //Laden von Daten 
 	delTiere = [];
 	fetch(url)
@@ -65,14 +69,14 @@ function loaddata(url){ //Laden von Daten
 
 function defaultlist(){ //Laden der default-Liste
 	loaddata("Tierliste.json");
-	if(document.getElementById("dellist")){
-		document.getElementById("dellist").style.display = "none";
+	if(document.getElementById("dellistli")){
+		document.getElementById("dellistli").style.display = "none";
 	}
 }
 
 function init (){ //Prüfen auf eigene Liste
 	if(!(localStorage.TiereMeta && localStorage.Tiere && localStorage.delTiere) || (TiereMeta.Id1 == defaultId1 && TiereMeta.Id2 == defaultId2)){ //Wenn man das erste mal die Seite besucht, oder die Default Liste eingestellt hat
-		document.getElementById("dellist").style.display = "none";
+		document.getElementById("dellistli").style.display = "none";
 	}
 }
 
@@ -218,7 +222,7 @@ function quiz(){ //Code für die Quiz-Seite
 		loaddata(window.URL.createObjectURL(file));
 		startquiz();
 		window.URL.revokeObjectURL(file);
-		document.getElementById("dellist").style.display = "inline-block";
+		document.getElementById("dellistli").style.display = "initial";
 	};
 	
 	document.getElementById("dellist").onclick = function(){ //Default liste laden
@@ -365,7 +369,7 @@ function DataInput(){ // Code für die Verwalten-Seite
 	
 	function changedList() {
 		if(TiereMeta.Id2 == defaultId2){
-			document.getElementById("dellist").style.display = "inline-block";
+			document.getElementById("dellistli").style.display = "initial";
 			TiereMeta.Id2 = Math.random();
 		}
 	}
@@ -474,7 +478,7 @@ function DataInput(){ // Code für die Verwalten-Seite
 			Inputlist(true);
 			window.URL.revokeObjectURL(file);
 			//localStorage.owndata = true;
-			document.getElementById("dellist").style.display = "inline-block";
+			document.getElementById("dellistli").style.display = "initial";
 	};
 	
 	document.getElementById("newlist").onclick = function(){
@@ -590,7 +594,7 @@ function DataInput(){ // Code für die Verwalten-Seite
 			Inputlist(true);
 			window.URL.revokeObjectURL(file);
 			//localStorage.owndata = true;
-			document.getElementById("dellist").style.display = "inline-block";
+			document.getElementById("dellistli").style.display = "initial";
 	};
 	
 	document.getElementById("dellist").onclick = function(){
