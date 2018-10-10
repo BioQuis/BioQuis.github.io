@@ -6,12 +6,12 @@
 	<link rel="stylesheet" type="text/css" href="stylesheet.css">
 	<script type="text/javascript" src="julsen.js"></script>
 
-	<title>Julsen-übt - Tierliste Bearbeiten</title>
+	<title>BioQuis - Liste Bearbeiten</title>
 </head>
 <body onload="DataInput(); init();" onunload="save();">
 
-	<ul class="navbar">
-		<li><a href="Julsen_starten.html">Tiere Bestimmen</a></li>
+	<ul class="navbar" id = "navbar">
+		<li><a class = "toplink" href="index.html">Tiere bestimmen</a></li>
 		<li class = "newlist" id="newlist">Neue Liste</li>
 		<li class="dropdown">
 			<span class="dropbtn">Eigene Liste</span>
@@ -67,8 +67,16 @@
 				<button type="button" id="querysubmit">Ausführen</button>
 			</div>
 		</li>
-		<li><button type="button" id="dellist" class="dellist" title="Werkseinstellungen wiederherstellen">&times;</button></li>
+		<li id = "dellistli"><button type="button" id="dellist" class="dellist" title="Standartliste verwenden">&times;</button></li>
 		<li class = "newlist" id="Submit">Exportieren</li>
+		<li id="Kontakt"><a href="About.html">Kontakt</a></li>
+		<li class="icon" id="icon" onclick="smallMenu(); MenuIcon(this);"> 
+			<div class="container">
+			  <div class="bar1"></div>
+			  <div class="bar2"></div>
+			  <div class="bar3"></div>
+			</div> 
+		</li>
 	</ul>
 
 	<div id="main" class="main">

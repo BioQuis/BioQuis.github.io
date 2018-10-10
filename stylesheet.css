@@ -1,13 +1,20 @@
+body {
+	font-family: "Arial", Helvetica, sans-serif; 
+	font-size: 1em;
+}
+
 .navbar {
 	list-style-type: none;
     background-color: #333;
     position: fixed; 
     top: 0; 
-    width: 100%; 
+    width: 100vw; 
 	margin-top: 0px;
+	margin-bottom: 0px;
 	margin-left: -8px;
 	padding: 0;
-	z-index: 10;
+	display: block;
+	z-index: 5;
 }
 
 li {
@@ -26,8 +33,8 @@ li a{
 	border-right: 1px solid #ddd;
 }
 
-#Submit{
-	float:right;
+#Submit, #Kontakt{
+	
 	border-left: 1px solid #ddd;
 }
 
@@ -36,9 +43,12 @@ li a{
     padding: 1px 3px;
 }
 
-.navbar a:hover, .navbar .dropbtn:hover, .navbar.dropbtn:focus, .navbar .newlist:hover, .dellist:hover {
+.navbar li:hover{
     background: #ddd;
     color: black;
+}
+.navbar li *:hover{
+	color: black;
 }
 
 .navbar a:hover{
@@ -46,7 +56,7 @@ li a{
 }
 
 th:hover{
-	cursor: n-resize;
+	cursor: pointer; /*n-resize*/
 }
 
 .navbar .dropbtn:hover, .navbar .newlist:hover {
@@ -86,7 +96,8 @@ li.dropdown {
 }
 
 .main {
-    margin-top: 22px;
+	display: block;
+    margin-top: 20px;
 	margin-bottom: -16px;
 } 
 
@@ -114,12 +125,17 @@ li.dropdown {
 	transform: translate(-50%, 0%);
 }
 
-
+#loadsymbol{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
 
 #number {
-	position: fixed;
+	position: fixed; /*fixed*/
 	bottom: 2px;
-	right: 0px;
+	right: 2px;
 	font-size: 10px;
 	background-color: hsla(0, 0%, 100%, 0.5);
 	padding-left: 2px;
@@ -219,16 +235,21 @@ button:hover {
 
 .close {
     position: relative;
-    right: 25px;
+	right: 7px;
+    float: right;
     top: 0;
     color: #000;
-    font-size: 35px;
+    font-size: 20px;
     font-weight: bold;
+}
+
+.antworttext{
+	margin: 15px;
 }
 
 .close:hover,
 .close:focus {
-    color: red;
+    color: #bfbfbf;
     cursor: pointer;
 }
 
@@ -247,13 +268,107 @@ button:hover {
     to {transform: scale(1)}
 }
 
-/* Change styles for span and cancel button on extra small screens */
-@media screen and (max-width: 300px) {
-    span.psw {
-       display: block;
-       float: none;
-    }
-    .cancelbtn {
-       width: 100%;
-    }
+#dellist {
+	font-weight: bold;
+	display: inline-block;
 }
+
+/* Hide the link that should open and close the topnav on small screens */
+.navbar .icon {
+    display: none;
+	border-left: 1px solid #ddd;
+	cursor: pointer;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+.container {
+    display: inline-block;
+    cursor: pointer;
+}
+
+.bar1, .bar2, .bar3 {
+    width: 31px;
+    height: 3px;
+    background-color: #f2f2f2;
+	margin: 4px 0;
+    transition: 0.4s;
+}
+
+/* Rotate first bar */
+.change .bar1 {
+    -webkit-transform: rotate(-45deg) translate(-5px, 5px) ;
+    transform: rotate(-45deg) translate(-5px, 5px) ;
+}
+
+/* Fade out the second bar */
+.change .bar2 {
+    opacity: 0;
+}
+
+/* Rotate last bar */
+.change .bar3 {
+    -webkit-transform: rotate(45deg) translate(-5px, -5px) ;
+    transform: rotate(45deg) translate(-5px, -5px) ;
+}
+
+ /* When the screen is less than 600 pixels wide, hide all links, except for the first one ("Home"). Show the link that contains should open and close the topnav (.icon) */
+@media screen and (max-width: 875px) {
+  .navbar li:not(:first-child) {display: none;}
+  
+  .navbar li.icon {
+    float: right;
+    display: block;
+	padding-top: 3px;
+	padding-bottom: 3px;
+  }
+  
+  .navbar li:not(.icon){
+	padding-top: 7px;
+	padding-bottom: 7px;
+  }
+  
+  .navbar *{
+	border: 0px;
+  }
+  
+	#Submit, #Kontakt{
+	
+		border-left: 0px;
+	}
+	
+	.main{
+		margin-top:34px;
+	}
+  
+}
+
+/* The "responsive" class is added to the topnav with JavaScript when the user clicks on the icon. This class makes the topnav look good on small screens (display the links vertically instead of horizontally) */
+@media screen and (max-width: 875px) {
+  
+  .navbar.responsive li.icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  
+  .navbar.responsive li {
+    float: none;
+    display: block;
+    text-align: left;
+  }
+  
+  .navbar.responsive a {
+	display: block;
+	text-align:left;
+  }
+  
+  .navbar.responsive li:first-child{
+	border-bottom: 1px solid #ddd;
+  }
+  
+  .navbar.responsive li:nth-last-child(2){
+	border-top: 1px solid #ddd;
+  }
+  
+} 
