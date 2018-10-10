@@ -1,0 +1,113 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="stylesheet.css">
+	<script type="text/javascript" src="javascript.js"></script>
+
+	<title>BioQuis - Liste Bearbeiten</title>
+</head>
+<body onload="DataInput(); init();" onunload="save();">
+
+	<ul class="navbar" id = "navbar">
+		<li><a class = "toplink" href="index.html">Tiere bestimmen</a></li>
+		<li class = "newlist" id="newlist">Neue Liste</li>
+		<li class="dropdown">
+			<span class="dropbtn">Eigene Liste</span>
+			<div class="dropdown-content">
+				<input type="file" id = "loadlist" class="fileinput">
+			</div>
+		</li>
+		<li class="dropdown">
+			<span class="dropbtn">Liste hinzufügen</span>
+			<div class="dropdown-content">
+				<input type="file" id = "list2" class="fileinput">
+			</div>
+		</li>
+		<li class="dropdown">
+			<span class="dropbtn">Bedingungung</span>
+			<div class="dropdown-content">
+				<select id="queryselector1">
+					<option value=2>Art</option>
+					<option value=3>Gattung</option>
+					<option value=4>Unterfamilie</option>
+					<option value=5>Familie</option>
+					<option value=6>Unterordung</option>
+					<option value=7>Ordung</option>
+					<option value=8>Klasse</option>
+					<option value=9>Stamm</option>
+					<option value=10>Paraphyletische Gruppe</option>
+					<option value=11>Grafikadresse</option>
+					<option value=12>Grafikinformation</option>
+					<option value=13>Merkmale</option>
+					<option value=14>Weitere Informationen</option>
+				</select>
+				=
+				<input type="text" id="queryvalue1" placeholder="Neuer Wert" size="40">
+				<p>für alle Einträge mit</p>
+				<select id="queryselector2">
+					<option value=1>ID#</option>
+					<option value=2>Art</option>
+					<option value=3>Gattung</option>
+					<option value=4>Unterfamilie</option>
+					<option value=5>Familie</option>
+					<option value=6>Unterordung</option>
+					<option value=7>Ordung</option>
+					<option value=8>Klasse</option>
+					<option value=9>Stamm</option>
+					<option value=10>Paraphyletische Gruppe</option>
+					<option value=11>Grafikadresse</option>
+					<option value=12>Grafikinformation</option>
+					<option value=13>Merkmale</option>
+					<option value=14>Weitere Informationen</option>
+				</select>
+				=
+				<input type="text" id="queryvalue2" placeholder="Bedingungs-Wert" size="40">
+				<button type="button" id="querysubmit">Ausführen</button>
+			</div>
+		</li>
+		<li id = "dellistli"><button type="button" id="dellist" class="dellist" title="Standartliste verwenden">&times;</button></li>
+		<li class = "newlist" id="Submit">Exportieren</li>
+		<li id="Kontakt"><a href="About.html">Kontakt</a></li>
+		<li class="icon" id="icon" onclick="smallMenu(); MenuIcon(this);"> 
+			<div class="container">
+			  <div class="bar1"></div>
+			  <div class="bar2"></div>
+			  <div class="bar3"></div>
+			</div> 
+		</li>
+	</ul>
+
+	<div id="main" class="main">
+		
+		<form id="form" >
+			<table id="tiere" class="tiertable">
+				<thead id="thead">
+					<tr>
+						<th class="thbutton"></th>
+						<th class="thid">ID#</th>
+						<th class="thart">Art</th>
+						<th>Gattung</th>
+						<th>Unterfamilie</th>
+						<th>Familie</th>
+						<th>Unterordnung</th>
+						<th>Ordnung</th>
+						<th>Klasse</th>
+						<th>Stamm</th>
+						<th class="thgruppe">Paraphyletische Gruppe</th>
+						<th>Grafikadresse</th>
+						<th>Grafikinformaiton</th>
+						<th class="thmerkmale">Merkmale</th>
+						<th class="thlink">Weitere Informationen</th>
+					</tr>
+				</thead>
+				<tbody id="tbody">
+				</tbody>
+			</table>
+		</form>	
+		
+		
+	</div>	
+</body>
+</html>
