@@ -1,5 +1,3 @@
-
-
 function Tier(num, Art, Gattung, Unterfamilie, Familie, Unterordnung, Ordnung, Klasse, Stamm, Gruppe, bildlink, bildinfo, Merkmale, link) {
 	this.num = num;
 	this.Art = Art;
@@ -19,8 +17,8 @@ function Tier(num, Art, Gattung, Unterfamilie, Familie, Unterordnung, Ordnung, K
 var dummyTier = new Tier();
 var timeout = 500;
 var dataversion = '1.2'; //Daten-Format Version
-var defaultId1 = "0.8554224974327433"; //Werte der Default-Liste
-var defaultId2 = "0.7937105804607755"; //Werte der Default-Liste
+var defaultId1 = "0.5746415489662147"; //Werte der Default-Liste
+var defaultId2 = "0.8716110270999801"; //Werte der Default-Liste
 
 if(localStorage.TiereMeta && localStorage.Tiere && localStorage.delTiere){ //Daten einlesen von localStorage...
 	var Tiere = JSON.parse(localStorage.Tiere);
@@ -42,20 +40,6 @@ if(!TiereMeta.dv){  //Daten-Format Update
 	TiereMeta.v = 0;
 };
 
-/* Toggle between adding and removing the "responsive" class to topnav when the user clicks on the icon */
-function smallMenu() {
-    var x = document.getElementById("navbar");
-    if (x.className === "navbar") {
-        x.className += " responsive";
-    } else {
-        x.className = "navbar";
-    }
-} 
-
-function MenuIcon(x) {
-    x.classList.toggle("change");
-} 
-
 function loaddata(url){ //Laden von Daten 
 	delTiere = [];
 	fetch(url)
@@ -69,14 +53,12 @@ function loaddata(url){ //Laden von Daten
 
 function defaultlist(){ //Laden der default-Liste
 	loaddata("Tierliste.json");
-	if(document.getElementById("dellistli")){
-		document.getElementById("dellistli").style.display = "none";
-	}
+	document.getElementById("dellist").style.display = "none";
 }
 
 function init (){ //Prüfen auf eigene Liste
-	if(!(localStorage.TiereMeta && localStorage.Tiere && localStorage.delTiere) || (TiereMeta.Id1 == defaultId1 && TiereMeta.Id2 == defaultId2)){ //Wenn man das erste mal die Seite besucht, oder die Default Liste eingestellt hat
-		document.getElementById("dellistli").style.display = "none";
+	if(TiereMeta.Id1 == defaultId1 && TiereMeta.Id2 == defaultId2){
+		document.getElementById("dellist").style.display = "none";
 	}
 }
 
@@ -103,6 +85,8 @@ function filter(gTiere, lTiere, filterarr){
 			}
 		}
 	});
+	console.log(Tiere);
+	console.log(delTiere);
 }
 
 function quiz(){ //Code für die Quiz-Seite
@@ -124,17 +108,13 @@ function quiz(){ //Code für die Quiz-Seite
 	
 	startquiz();
 	
-	function startquiz(){ //laden des 1. Bildes nach dem Laden der Liste (deshalb Timeout)
+	function startquiz(){ //laden des 1. Bildes nach dem Laden (deshalb Timeout)
 		setTimeout(function() {
 			randnum = randIm();	
 		},timeout);
 	}
 	
 	function randIm(){ //zufälliges Bild wird angezeigt
-	
-		var loadsymbol = document.getElementById("loadsymbol");
-		loadsymbol.style.display = "initial";
-		
 		
 		if (Tiere.length == 0){ //zurücksetzten wenn alle Bilder richtig bestimmt wurden
 			Tiere = delTiere;
@@ -149,7 +129,6 @@ function quiz(){ //Code für die Quiz-Seite
 		var windowH = window.innerHeight-22;
 		
 		var image = document.getElementById("bild");
-		image.style.display ="none";
 		image.src = randel.BildLink;
 		image.alt = "Error 404: Bild ist nicht mehr abrufbar. \nEintrag #: "+randel.num;
 		
@@ -160,7 +139,6 @@ function quiz(){ //Code für die Quiz-Seite
 			image.width = ratio*imW;
 			image.height = ratio*imH;
 			image.style.display = "block";
-			loadsymbol.style.display = "none";
 			
 			if (image.width > 350){ //Bestimmt wie Bilduntertext angepasst wird
 				document.getElementById("bildinfo").style.width = (image.width-2)+"px";
@@ -209,11 +187,6 @@ function quiz(){ //Code für die Quiz-Seite
 	
 	function nextround(){ //nächstes Bild wird geladen
 		document.getElementById('popup').style.display='none';
-		/*var image = document.getElementById("bild");
-		image.src = "graphics/loader.gif";
-		image.width = "64px";
-		image.height = "64px";
-		image.style.display = "block";*/
 		randnum=randIm();
 	}
 	
@@ -222,7 +195,7 @@ function quiz(){ //Code für die Quiz-Seite
 		loaddata(window.URL.createObjectURL(file));
 		startquiz();
 		window.URL.revokeObjectURL(file);
-		document.getElementById("dellistli").style.display = "initial";
+		document.getElementById("dellist").style.display = "inline-block";
 	};
 	
 	document.getElementById("dellist").onclick = function(){ //Default liste laden
@@ -369,7 +342,7 @@ function DataInput(){ // Code für die Verwalten-Seite
 	
 	function changedList() {
 		if(TiereMeta.Id2 == defaultId2){
-			document.getElementById("dellistli").style.display = "initial";
+			document.getElementById("dellist").style.display = "inline-block";
 			TiereMeta.Id2 = Math.random();
 		}
 	}
@@ -478,7 +451,7 @@ function DataInput(){ // Code für die Verwalten-Seite
 			Inputlist(true);
 			window.URL.revokeObjectURL(file);
 			//localStorage.owndata = true;
-			document.getElementById("dellistli").style.display = "initial";
+			document.getElementById("dellist").style.display = "inline-block";
 	};
 	
 	document.getElementById("newlist").onclick = function(){
@@ -594,7 +567,7 @@ function DataInput(){ // Code für die Verwalten-Seite
 			Inputlist(true);
 			window.URL.revokeObjectURL(file);
 			//localStorage.owndata = true;
-			document.getElementById("dellistli").style.display = "initial";
+			document.getElementById("dellist").style.display = "inline-block";
 	};
 	
 	document.getElementById("dellist").onclick = function(){
