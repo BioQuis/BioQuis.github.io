@@ -3,6 +3,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <html>
   <head>
+	<link rel="icon" href="graphics/Favicon.png" type="image/png">
 	<link rel="stylesheet" type="text/css" href="stylesheet.css">
 	<script type="text/javascript" src="javascript.js"></script>
   
@@ -12,23 +13,6 @@
   
 	
 	<ul class="navbar" id = "navbar">
-		<li><a href="Verwalten.html">Liste bearbeiten</a></li>
-		<li class="dropdown">
-			<span class="dropbtn">Eigene Liste</span>
-			<div class="dropdown-content">
-				<input type="file" id = "loadlist" class="fileinput">
-			</div>
-		</li>
-		<li id = "dellistli"><button type="button" id="dellist" class="dellist" title="Standartliste verwenden">&times;</button></li>
-		<li class="dropdown">
-			<span class="dropbtn">Filter (in Arbeit)</span>
-			<div class="dropdown-content" id="filterdiv">
-				<div id="filters"></div>
-				<input type="text" id = "searchfield" class="fileinput" size="40">
-				<div id="filteranswers"></div>
-			</div>
-		</li>
-		<li id = "Kontakt"><a href="About.html">Kontakt</a></li>
 		<li class="icon" onclick="smallMenu(); MenuIcon(this);"> 
 			<div class="container">
 			  <div class="bar1"></div>
@@ -36,6 +20,23 @@
 			  <div class="bar3"></div>
 			</div> 
 		</li>
+		<li class="show"><a href="Verwalten.html">Liste bearbeiten</a></li>
+		<li class="dropdown">
+			<span class="dropbtn">Eigene Liste</span>
+			<div class="dropdown-content">
+				<input type="file" id = "loadlist" class="fileinput">
+			</div>
+		</li>
+		<li class="dropdown">
+			<span class="dropbtn">Filter</span>
+			<div class="dropdown-content" id="filterdiv">
+				<div id="filters"></div>
+				<input type="text" id = "searchfield" class="fileinput" size="40">
+				<div id="filteranswers"></div>
+			</div>
+		</li>
+		<li type="button" id="dellist" class="dellist" title="Standartliste wiederherstellen">&times;</li>
+		<li id = "Kontakt"><a href="About.html">Kontakt</a></li>
 	</ul>
 	
 	
@@ -48,9 +49,13 @@
 		<div id="popup">
 			<div id="popup-content">
 				<span onclick="document.getElementById('popup').style.display='none'" class="close" title="Close Modal">&times;</span>
-				<table id="antworttext"></table>
-				<button type="button" id="richtig">Richtig</button>
-				<button type="button" id="falsch">Falsch</button>
+				<div class="antworttable">
+					<table id="antworttext" class="antworttext"></table>
+				</div>
+				<div class="rof">
+					<button type="button" id="richtig" class ="rofbutton">Wusste ich &#10003;</button>
+					<button type="button" id="falsch" class="rofbutton">Nicht gewusst &#10007;</button>
+				</div>
 			</div>
 		</div>
 	</div>

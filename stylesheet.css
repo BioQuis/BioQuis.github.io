@@ -8,7 +8,8 @@ body {
     background-color: #333;
     position: fixed; 
     top: 0; 
-    width: 100vw; 
+	-webkit-backface-visibility: hidden;
+    width: 100%; 
 	margin-top: 0px;
 	margin-bottom: 0px;
 	margin-left: -8px;
@@ -33,17 +34,12 @@ li a{
 	border-right: 1px solid #ddd;
 }
 
-#Submit, #Kontakt{
+#Kontakt{
 	
 	border-left: 1px solid #ddd;
 }
 
-.dellist{
-    background:#333;
-    padding: 1px 3px;
-}
-
-.navbar li:hover{
+.navbar li:hover:not(.icon){
     background: #ddd;
     color: black;
 }
@@ -70,7 +66,7 @@ li.dropdown {
 .dropdown-content {
     display: none;
     position: absolute;
-    background-color: #f9f9f9;
+    background-color: #f2f2f2;
     min-width: 160px;
     z-index: 1;
 }
@@ -150,39 +146,83 @@ thead{
 	position: sticky;
 	top:22px;
 	text-align: center;
-	width: 3771px;
+	width: 4555px;
 	background-color:white;
 	border-bottom: 2px solid #a6a6a6;
+	margin: 0px 0px;
+	padding: 0px;
+	z-index: 2;
 }
 th { 
 	border: 1px solid #ddd;
 	width: 144px;
 }
 .thnormal{width: 144px; border: 1px solid #ddd;}
-.thbutton{width:28px; border: none;}
+
+.thbutton{width:29px; border: none; padding: 1px;}
+@supports (-moz-appearance:none) {
+    .thbutton { width: 28px;} 
+}
+
 .thid{width: 38px;}
 .thart{width: 326px;}
 .thgruppe{font-size: 80%;}
+.thbildtext{width:925px;}
 .thmerkmale{width:925px;}
-.thlink{width:924px;}
-
+.thlink{width:925px;}
 
 tbody, thead tr {
 	display: block;
 	table-layout: fixed;
 }
-input.Gattung, input.Unterfamilie, input.Familie, input.Unterordnung, input.Ordnung, input.Klasse, input.Stamm, input.Gruppe, input.BildLink, input.BildInfo{
-    width: 140px;
+
+.tiertable td{
+	position: absolute;
+	margin: 0px 0px;
+	padding: 0px;
+	width: 144px;
 }
-input.num{
-	width: 35px;
-	text-align: center;
+
+td.num{
+	width: 38px;
+	left: 43px;
 }
-input.Art{
-	width: 322px;
+
+td.Art{
+	width: 326px;
+	left: 87px;
 }
-input.Merkmale, input.Link {
-	width: 921px;
+
+td.Gattung{left: 419px;}
+td.Unterfamilie{left: 569px;}
+td.Familie{left: 719px;}
+td.Unterordnung{left: 869px;}
+td.Ordnung{left: 1019px;}
+td.Klasse{left: 1169px;}
+td.Stamm{left: 1319px;}
+td.Gruppe{left: 1469px;}
+td.BildLink {left: 1619px;}
+td.BildInfo{left: 1769px;}
+
+td.BildInfo, td.Merkmale, td.Link{
+	width: 925px;
+}
+td.Merkmale{left:2700px;}
+td.Link{left:3631px;}
+
+td input{
+	display: inline-block;
+	width: 100%;
+	height: 18px;
+	margin: 0;
+	padding: 0;
+}
+
+td input.num{	text-align: center;}
+
+.tiertable tr:not(.headtrace){
+	display: table-row;
+	height: 23px;
 }
 
 button, .fileinput{
@@ -228,9 +268,9 @@ button:hover {
 
 #popup-content{
 	background-color: #fefefe;
-    margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+    margin: 5% auto 20% auto; /* 5% from the top, 15% from the bottom and centered */
     border: 1px solid #888;
-    width: 80%; /* Could be more or less, depending on screen size */
+    width: 55%; /* Could be more or less, depending on screen size */
 }
 
 .close {
@@ -244,7 +284,15 @@ button:hover {
 }
 
 .antworttext{
-	margin: 15px;
+	margin-top: 15px;
+	margin-bottom: 5px;
+	border-collapse:collapse;
+}
+
+
+.antworttext td{
+	vertical-align: top;
+	padding: 10px 3px;
 }
 
 .close:hover,
@@ -253,30 +301,19 @@ button:hover {
     cursor: pointer;
 }
 
-.animate {
-    -webkit-animation: animatezoom 0.3s;
-    animation: animatezoom 0.3s
+.rof {
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
 }
 
-@-webkit-keyframes animatezoom {
-    from {-webkit-transform: scale(0)} 
-    to {-webkit-transform: scale(1)}
-}
-    
-@keyframes animatezoom {
-    from {transform: scale(0)} 
-    to {transform: scale(1)}
-}
-
-#dellist {
-	font-weight: bold;
-	display: inline-block;
+.rofbutton{
+	margin: 5px;
 }
 
 /* Hide the link that should open and close the topnav on small screens */
 .navbar .icon {
     display: none;
-	border-left: 1px solid #ddd;
 	cursor: pointer;
 	padding-left: 5px;
 	padding-right: 5px;
@@ -313,11 +350,12 @@ button:hover {
 }
 
  /* When the screen is less than 600 pixels wide, hide all links, except for the first one ("Home"). Show the link that contains should open and close the topnav (.icon) */
-@media screen and (max-width: 875px) {
-  .navbar li:not(:first-child) {display: none;}
+@media screen and (max-width: 927px) {
+	
+
+	.navbar li:not(.show){display: none;}
   
   .navbar li.icon {
-    float: right;
     display: block;
 	padding-top: 3px;
 	padding-bottom: 3px;
@@ -340,17 +378,20 @@ button:hover {
 	.main{
 		margin-top:34px;
 	}
+	
+	.dellist::before{
+		content:"Zurücksetzen ";
+	}
   
 }
 
 /* The "responsive" class is added to the topnav with JavaScript when the user clicks on the icon. This class makes the topnav look good on small screens (display the links vertically instead of horizontally) */
-@media screen and (max-width: 875px) {
+@media screen and (max-width: 927px) {
   
-  .navbar.responsive li.icon {
-    position: absolute;
-    right: 0;
-    top: 0;
-  }
+	#popup-content{
+		margin: 3% auto 20% auto; /* 5% from the top, 15% from the bottom and centered */
+		width: 95%; /* Could be more or less, depending on screen size */
+	}
   
   .navbar.responsive li {
     float: none;
@@ -363,12 +404,32 @@ button:hover {
 	text-align:left;
   }
   
-  .navbar.responsive li:first-child{
+  .navbar.responsive li:first-child, .navbar.responsive li:nth-child(2){
 	border-bottom: 1px solid #ddd;
   }
   
-  .navbar.responsive li:nth-last-child(2){
+  .navbar.responsive li:last-child{
 	border-top: 1px solid #ddd;
   }
   
 } 
+
+.about {
+	margin-top: 40px;
+}
+
+.about h4 {
+	margin-bottom: 5px;
+	margin-left: 10px;
+}
+
+.about p {
+	margin: 10px
+}
+
+.mini {
+	position: fixed;
+	bottom: 10px;
+	font-size: 0.9em;
+}
+

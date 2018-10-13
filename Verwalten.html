@@ -3,6 +3,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <html>
 <head>
+	<link rel="icon" href="graphics/Favicon.png" type="image/png">
 	<link rel="stylesheet" type="text/css" href="stylesheet.css">
 	<script type="text/javascript" src="javascript.js"></script>
 
@@ -11,7 +12,14 @@
 <body onload="DataInput(); init();" onunload="save();">
 
 	<ul class="navbar" id = "navbar">
-		<li><a class = "toplink" href="index.html">Tiere bestimmen</a></li>
+		<li class="icon" id="icon" onclick="smallMenu(); MenuIcon(this);"> 
+			<div class="container">
+			  <div class="bar1"></div>
+			  <div class="bar2"></div>
+			  <div class="bar3"></div>
+			</div> 
+		</li>
+		<li class="show"><a class = "toplink" href="index.html">Tiere bestimmen</a></li>
 		<li class = "newlist" id="newlist">Neue Liste</li>
 		<li class="dropdown">
 			<span class="dropbtn">Eigene Liste</span>
@@ -67,16 +75,9 @@
 				<button type="button" id="querysubmit">Ausführen</button>
 			</div>
 		</li>
-		<li id = "dellistli"><button type="button" id="dellist" class="dellist" title="Standartliste verwenden">&times;</button></li>
 		<li class = "newlist" id="Submit">Exportieren</li>
+		<li type="button" id="dellist" class="dellist" title="Standartliste wiederherstellen">&times;</li>
 		<li id="Kontakt"><a href="About.html">Kontakt</a></li>
-		<li class="icon" id="icon" onclick="smallMenu(); MenuIcon(this);"> 
-			<div class="container">
-			  <div class="bar1"></div>
-			  <div class="bar2"></div>
-			  <div class="bar3"></div>
-			</div> 
-		</li>
 	</ul>
 
 	<div id="main" class="main">
@@ -84,7 +85,7 @@
 		<form id="form" >
 			<table id="tiere" class="tiertable">
 				<thead id="thead">
-					<tr>
+					<tr class="headtrace">
 						<th class="thbutton"></th>
 						<th class="thid">ID#</th>
 						<th class="thart">Art</th>
@@ -97,7 +98,7 @@
 						<th>Stamm</th>
 						<th class="thgruppe">Paraphyletische Gruppe</th>
 						<th>Grafikadresse</th>
-						<th>Grafikinformaiton</th>
+						<th class="thbildtext">Grafikinformation</th>
 						<th class="thmerkmale">Merkmale</th>
 						<th class="thlink">Weitere Informationen</th>
 					</tr>

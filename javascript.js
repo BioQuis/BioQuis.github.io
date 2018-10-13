@@ -20,8 +20,8 @@ var dummyTier = new Tier();
 var timeout = 500;
 var dataversion = '1.2'; //Daten-Format Version
 var defaultId1 = "0.8554224974327433"; //Werte der Default-Liste
-var defaultId2 = "0.7937105804607755"; //Werte der Default-Liste
-//var RealWindowW = window.innerWidth;
+var defaultId2 = "0.5857847995500236"; //Werte der Default-Liste
+var WinW = window.innerWidth;
 
 if(localStorage.TiereMeta && localStorage.Tiere && localStorage.delTiere){ //Daten einlesen von localStorage...
 	var Tiere = JSON.parse(localStorage.Tiere);
@@ -70,14 +70,14 @@ function loaddata(url){ //Laden von Daten
 
 function defaultlist(){ //Laden der default-Liste
 	loaddata("Tierliste.json");
-	if(document.getElementById("dellistli")){
-		document.getElementById("dellistli").style.display = "none";
+	if(document.getElementById("dellist")){
+		document.getElementById("dellist").style.display = "none";
 	}
 }
 
 function init (){ //Prüfen auf eigene Liste
 	if(!(localStorage.TiereMeta && localStorage.Tiere && localStorage.delTiere) || (TiereMeta.Id1 == defaultId1 && TiereMeta.Id2 == defaultId2)){ //Wenn man das erste mal die Seite besucht, oder die Default Liste eingestellt hat
-		document.getElementById("dellistli").style.display = "none";
+		document.getElementById("dellist").style.display = "none";
 	}
 	/*console.log(RealWindowW);
 	console.log(document.getElementById("icon").getComputedStyle);
@@ -110,7 +110,12 @@ function filter(gTiere, lTiere, filterarr){
 	});
 }
 
+function dellistdisplay(){
+	document.getElementById("dellist").style.display = document.getElementById("Kontakt").style.display;
+}
+
 function quiz(){ //Code für die Quiz-Seite
+
 	var randnum;
 	
 	filter(delTiere,Tiere,FilterAr);	//Die inertiale Filterliste generieren
@@ -131,6 +136,7 @@ function quiz(){ //Code für die Quiz-Seite
 	
 	function startquiz(){ //laden des 1. Bildes nach dem Laden der Liste (deshalb Timeout)
 		setTimeout(function() {
+			filter(delTiere,Tiere,FilterAr);
 			randnum = randIm();	
 		},timeout);
 	}
@@ -144,7 +150,22 @@ function quiz(){ //Code für die Quiz-Seite
 		if (Tiere.length == 0){ //zurücksetzten wenn alle Bilder richtig bestimmt wurden
 			Tiere = delTiere;
 			delTiere = [];
+			if (Tiere.length == 1 && !Tiere.Bildlink){
+				loadsymbol.style.display = "none";
+				if(confirm("Die Liste enthält keine Einträge. Liste bearbeiten?")){
+					window.location.href = "Verwalten.html";
+				}
+			}
 			filter(delTiere,Tiere,FilterAr);
+			if (Tiere.length == 0){
+				loadsymbol.style.display = "none";
+				if(confirm("Der Filter liefert kein Ergebnis. Filter entfernen?")){
+					FilterAr = [];
+					var filters = document.getElementById("filters");
+					filters.removeChild(filters.childNodes[0]); 
+					randIm();
+				}
+			}
 		}
 		
 		var randnum = Math.floor(Math.random() * Tiere.length);
@@ -191,7 +212,11 @@ function quiz(){ //Code für die Quiz-Seite
 				var row = atable.insertRow(-1) //last position also for Safari
 				var cell1 = row.insertCell(0);
 				var cell2 = row.insertCell(1);
+				if(el != "Link"){
 				cell1.innerHTML = el+":";
+				} else {
+					cell1.innerHTML = "Weitere Informationen:";
+				}
 				cell2.innerHTML = randel[el];
 			}
 		}
@@ -229,12 +254,14 @@ function quiz(){ //Code für die Quiz-Seite
 		loaddata(window.URL.createObjectURL(file));
 		startquiz();
 		window.URL.revokeObjectURL(file);
-		document.getElementById("dellistli").style.display = "initial";
+		dellistdisplay();
 	};
 	
 	document.getElementById("dellist").onclick = function(){ //Default liste laden
-		defaultlist();
-		startquiz();
+		if (confirm("Sollten alle Einträge in der Liste unwiderruflich gelöscht und die Standardliste wiederhergestellt werden?")){
+			defaultlist();
+			startquiz();
+		}
 	}
 	
 	//Filter anwenden
@@ -268,15 +295,23 @@ function quiz(){ //Code für die Quiz-Seite
 			li.onclick = function(){ //hinzufügen des Filters
 				var actualTier = Tiere[randnum];
 				filter(delTiere,Tiere,[el]);
-				FilterAr.push(el);
+				
+				filters = document.getElementById("filters");
+				if (FilterAr.length > 0){
+					filters.replaceChild(span,filters.firstChild); 
+				} else {
+					filters.appendChild(span);
+				}
+				
+				FilterAr[0] = el; //FilterAr.push(el);
 				var elsplit = el.split(": ");
 				
 				if(actualTier[elsplit[0]] != elsplit[1]){
 					randnum = randIm();
 				}
 				
-				filters = document.getElementById("filters");
-				filters.appendChild(span);
+				//filters = document.getElementById("filters");
+				//filters.appendChild(span);
 				span.onclick = function(){ //entfernen des Filters
 					FilterAr.splice(FilterAr.indexOf(el),1);
 					filter(Tiere,delTiere,[el]);
@@ -322,6 +357,7 @@ function DataInput(){ // Code für die Verwalten-Seite
 						input.value = iValue;
 					}
 					input.className = el;
+					td.className = el;
 					switch (el){
 						case "Art":
 							input.size = 50;
@@ -376,7 +412,7 @@ function DataInput(){ // Code für die Verwalten-Seite
 	
 	function changedList() {
 		if(TiereMeta.Id2 == defaultId2){
-			document.getElementById("dellistli").style.display = "initial";
+			dellistdisplay();
 			TiereMeta.Id2 = Math.random();
 		}
 	}
@@ -417,6 +453,7 @@ function DataInput(){ // Code für die Verwalten-Seite
 				input.name = "ip";
 				input.value = newrow.previousSibling.cells[i].firstChild.value;
 				input.className = newrow.previousSibling.cells[i].firstChild.className;
+				cell.className = input.className;
 				input.style.color = "#808080";
 				switch (i){
 					case 1:
@@ -485,7 +522,7 @@ function DataInput(){ // Code für die Verwalten-Seite
 			Inputlist(true);
 			window.URL.revokeObjectURL(file);
 			//localStorage.owndata = true;
-			document.getElementById("dellistli").style.display = "initial";
+			dellistdisplay();
 	};
 	
 	document.getElementById("newlist").onclick = function(){
@@ -507,6 +544,7 @@ function DataInput(){ // Code für die Verwalten-Seite
 			input.name = "ip";
 			input.style.color = "#808080";
 			input.className = el;
+			cell.className = el;
 			switch (el){
 				case "Art":
 					input.size = 50;
@@ -601,13 +639,15 @@ function DataInput(){ // Code für die Verwalten-Seite
 			Inputlist(true);
 			window.URL.revokeObjectURL(file);
 			//localStorage.owndata = true;
-			document.getElementById("dellistli").style.display = "initial";
+			dellistdisplay();
 	};
 	
 	document.getElementById("dellist").onclick = function(){
-		defaultlist();
-		newtable();
-		Inputlist();
+		if (confirm("Sollten alle Einträge in der Liste unwiderruflich gelöscht und die Standardliste wiederhergestellt werden?")){
+			defaultlist();
+			newtable();
+			Inputlist();
+		}
 	}
 	
 	
