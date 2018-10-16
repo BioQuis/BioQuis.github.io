@@ -1,4 +1,4 @@
-<!DOCTYPE HTML5>
+<!DOCTYPE html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <html>
@@ -9,42 +9,47 @@
   
     <title>BioQuis</title>
   </head>
-  <body onload="quiz(); init();" onunload = "save();"> 
+  <body onload="quiz(); init();" onunload = "save()"> 
   
 	
 	<ul class="navbar" id = "navbar">
-		<li class="icon" onclick="smallMenu(); MenuIcon(this);"> 
+		<li class="icon" onclick="smallMenu(); MenuIcon(this);" title="Menü aus-/einklappen"> 
 			<div class="container">
 			  <div class="bar1"></div>
 			  <div class="bar2"></div>
 			  <div class="bar3"></div>
 			</div> 
 		</li>
-		<li class="show"><a href="Verwalten.html">Liste bearbeiten</a></li>
-		<li class="dropdown">
+		<li class="show" title="Bearbeiten/hinzufügen/löschen/exportieren von Bilder und Antworten"><a href="Verwalten.html">Liste bearbeiten</a></li>
+		<li class="dropdown" title="Öffnen einer eigenen Liste von Bildern und Antworten">
 			<span class="dropbtn">Eigene Liste</span>
 			<div class="dropdown-content">
 				<input type="file" id = "loadlist" class="fileinput">
 			</div>
 		</li>
 		<li class="dropdown">
-			<span class="dropbtn">Filter</span>
+			<span class="dropbtn" title="Angezeigte Bilder nach Gattung-/Familien-/Ordnungsname/etc filtern">Filter</span>
 			<div class="dropdown-content" id="filterdiv">
 				<div id="filters"></div>
-				<input type="text" id = "searchfield" class="fileinput" size="40">
-				<div id="filteranswers"></div>
+				<input type="text" id = "searchfield" class="fileinput" size="40" title="Gattungs-/Familien-/Ordungsname/etc eingeben">
+				<div id="filteranswers" title="Zur Auswahl klicken"></div>
 			</div>
 		</li>
-		<li type="button" id="dellist" class="dellist" title="Standartliste wiederherstellen">&times;</li>
-		<li id = "Kontakt"><a href="About.html">Kontakt</a></li>
+		<li type="button" id="dellist" class="dellist" title="Standartliste wiederherstellen">Zurücksetzen &times;</li>
+		<li id = "Kontakt"><a href="About.html" title="Informationen über diese Seite">Kontakt</a></li>
 	</ul>
 	
+	<p class="IE">Internet Explorer besitzt leider nicht die für die Funktion dieser Seite erforderlichen Fähigkeiten, bitte verwende einen beliebigen anderen Internetbrowser (z.B. Firefox, Opera, Chrome).</p> 
 	
 	<div class="main">
-			<img id="bild" alt="Bild nicht gefunden">
+			<img id="bild" alt="Bild nicht gefunden" title="Klicken um die richtige Antwort anzuzeigen">
 			<img id="loadsymbol" alt="Nächstes Bild ladet..." src="graphics/loader.gif">
-			<div id="bildinfo">sdfnb</div>	
-		<div id="number"></div>
+			<div id="bildinfo"></div>	
+		<div id="number" title="ID# des Eintrages in der Liste"></div>
+		<div id="erfolg">
+			<p id="prozent" title="Prozentsatz richtiger Antworten, zum Zurücksetzen klicken"></p>
+			<p id="fortschritt" title="Anzahl der richtigen Antworten in dieser Runde"></p>
+		</div>
 		
 		<div id="popup">
 			<div id="popup-content">
@@ -53,8 +58,8 @@
 					<table id="antworttext" class="antworttext"></table>
 				</div>
 				<div class="rof">
-					<button type="button" id="richtig" class ="rofbutton">Wusste ich &#10003;</button>
-					<button type="button" id="falsch" class="rofbutton">Nicht gewusst &#10007;</button>
+					<button type="button" id="richtig" class ="rofbutton" title="Das Bild in dieser Runde nicht mehr wiederhohlen">Wusste ich &#10003;</button>
+					<button type="button" id="falsch" class="rofbutton" title="Das Bild in dieser Runde nochmals anzeigen">Nicht gewusst &#10007;</button>
 				</div>
 			</div>
 		</div>

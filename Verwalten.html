@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <html>
@@ -12,31 +12,36 @@
 <body onload="DataInput(); init();" onunload="save();">
 
 	<ul class="navbar" id = "navbar">
-		<li class="icon" id="icon" onclick="smallMenu(); MenuIcon(this);"> 
+		<li class="icon" id="icon" onclick="smallMenu(); MenuIcon(this);" title="Menü aus-/einklappen"> 
 			<div class="container">
 			  <div class="bar1"></div>
 			  <div class="bar2"></div>
 			  <div class="bar3"></div>
 			</div> 
 		</li>
-		<li class="show"><a class = "toplink" href="index.html">Tiere bestimmen</a></li>
-		<li class = "newlist" id="newlist">Neue Liste</li>
-		<li class="dropdown">
+		<li class="show"><a class = "toplink" href="index.html" title="Zur Bilderanzeige um zu üben">Bilderanzeige</a></li>
+		<li class = "newlist" id="newlist" title="Erstellen einer neuen leeren Liste">Neue Liste</li>
+		<li class="dropdown" title="Öffnen einer eigenen Liste von Bildern und Antworten">
 			<span class="dropbtn">Eigene Liste</span>
 			<div class="dropdown-content">
 				<input type="file" id = "loadlist" class="fileinput">
 			</div>
 		</li>
-		<li class="dropdown">
+		<li class="dropdown" title="Eine andere Liste zu dieser hinzufügen">
 			<span class="dropbtn">Liste hinzufügen</span>
 			<div class="dropdown-content">
 				<input type="file" id = "list2" class="fileinput">
 			</div>
 		</li>
-		<li class="dropdown">
+		<li class="dropdown" title="Mehrere Einträge auf einmal ensprechend einer Bedingung verändern">
 			<span class="dropbtn">Bedingungung</span>
-			<div class="dropdown-content">
-				<select id="queryselector1">
+			<div class="dropdown-content" title='Um Beispielsweise für alle Einträge mit Gattungsname "Salamandra" den Gattungsnamen auf "Eigentliche Salamander" zu ändern folgendes eingeben:
+			Gattung (=)
+			Eigentliche Salamander
+			(für alle Einträge mit)
+			Gattung (=)
+			Salamandra'>
+				<select id="queryselector1" title='Zu ändernde Spalte auswählen z.B. "Gattung"'>
 					<option value=2>Art</option>
 					<option value=3>Gattung</option>
 					<option value=4>Unterfamilie</option>
@@ -52,9 +57,9 @@
 					<option value=14>Weitere Informationen</option>
 				</select>
 				=
-				<input type="text" id="queryvalue1" placeholder="Neuer Wert" size="40">
+				<input type="text" id="queryvalue1" placeholder="Neuer Wert" size="40" title='Neuen Wert für diese Spalte angeben, z.B. "Eigentliche Salamander"'>
 				<p>für alle Einträge mit</p>
-				<select id="queryselector2">
+				<select id="queryselector2" title='Spalte nach der die zu ändernden Werte selektiert werden sollten, z.B. "Gattung"'>
 					<option value=1>ID#</option>
 					<option value=2>Art</option>
 					<option value=3>Gattung</option>
@@ -71,44 +76,43 @@
 					<option value=14>Weitere Informationen</option>
 				</select>
 				=
-				<input type="text" id="queryvalue2" placeholder="Bedingungs-Wert" size="40">
+				<input type="text" id="queryvalue2" placeholder="Bedingungs-Wert" size="40" title='Wert nach dem in der gewählten Spalte selektiert werden sollte, z.B. "Salamandra"'>
 				<button type="button" id="querysubmit">Ausführen</button>
 			</div>
 		</li>
-		<li class = "newlist" id="Submit">Exportieren</li>
-		<li type="button" id="dellist" class="dellist" title="Standartliste wiederherstellen">&times;</li>
-		<li id="Kontakt"><a href="About.html">Kontakt</a></li>
+		<li class = "newlist" id="Submit" title="Die aktuelle Liste herunterladen um sie z.B. zu verschicken">Exportieren</li>
+		<li type="button" id="dellist" class="dellist" title="Standartliste wiederherstellen">Zurücksetzen &times;</li>
+		<li id="Kontakt"><a href="About.html" title="Informationen über diese Seite">Kontakt</a></li>
 	</ul>
-
-	<div id="main" class="main">
-		
+	
+	<p class="IE">Internet Explorer besitzt nicht die für die Funktion dieser Seite erforderlichen Fähigkeiten, bitte verwende einen beliebigen anderen Internetbrowser (z.B. Firefox, Opera, Chrome).</p> 
+	
+	<div id="main" class="main">	
 		<form id="form" >
 			<table id="tiere" class="tiertable">
 				<thead id="thead">
 					<tr class="headtrace">
 						<th class="thbutton"></th>
-						<th class="thid">ID#</th>
-						<th class="thart">Art</th>
-						<th>Gattung</th>
-						<th>Unterfamilie</th>
-						<th>Familie</th>
-						<th>Unterordnung</th>
-						<th>Ordnung</th>
-						<th>Klasse</th>
-						<th>Stamm</th>
-						<th class="thgruppe">Paraphyletische Gruppe</th>
-						<th>Grafikadresse</th>
-						<th class="thbildtext">Grafikinformation</th>
-						<th class="thmerkmale">Merkmale</th>
-						<th class="thlink">Weitere Informationen</th>
+						<th class="thid" title="Aufsteigend nach der ID# sortieren">ID#</th>
+						<th class="thart" title="Alphabetisch nach dem Artnamen sortieren">Art</th>
+						<th title="Alphabetisch nach dem Gattungsnamen sortieren">Gattung</th>
+						<th title="Alphabetisch nach dem Unterfamiliennamen sortieren">Unterfamilie</th>
+						<th title="Alphabetisch nach dem Familiennamen sortieren">Familie</th>
+						<th title="Alphabetisch nach dem Unterordnungsnamen sortieren">Unterordnung</th>
+						<th title="Alphabetisch nach dem Ordnungsnamen sortieren">Ordnung</th>
+						<th title="Alphabetisch nach dem Klassennamen sortieren">Klasse</th>
+						<th title="Alphabetisch nach dem Stammnamen sortieren">Stamm</th>
+						<th class="thgruppe" title="Alphabetisch nach der paraphyletischen Gruppe sortieren">Paraphyletische Gruppe</th>
+						<th title="Alphabetisch nach der Grafikadresse sortieren">Bildadresse</th>
+						<th class="thbildtext" title="Alphabetisch nach der Grafikinformation sortieren">Bildinformation</th>
+						<th class="thmerkmale" title="Alphabetisch nach den Merkmalen sortieren">Merkmale</th>
+						<th class="thlink" title="Alphabetisch nach den weiteren Informationen sortieren">Weitere Informationen</th>
 					</tr>
 				</thead>
 				<tbody id="tbody">
 				</tbody>
 			</table>
-		</form>	
-		
-		
+		</form>		
 	</div>	
 </body>
 </html>

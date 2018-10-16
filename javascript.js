@@ -1,5 +1,4 @@
-
-
+{ //definieren von Variablen
 function Tier(num, Art, Gattung, Unterfamilie, Familie, Unterordnung, Ordnung, Klasse, Stamm, Gruppe, bildlink, bildinfo, Merkmale, link) {
 	this.num = num;
 	this.Art = Art;
@@ -16,12 +15,14 @@ function Tier(num, Art, Gattung, Unterfamilie, Familie, Unterordnung, Ordnung, K
 	this.Merkmale = Merkmale;
 	this.Link = link;
 };
+
 var dummyTier = new Tier();
 var timeout = 500;
 var dataversion = '1.2'; //Daten-Format Version
 var defaultId1 = "0.8554224974327433"; //Werte der Default-Liste
 var defaultId2 = "0.5857847995500236"; //Werte der Default-Liste
 var WinW = window.innerWidth;
+}
 
 if(localStorage.TiereMeta && localStorage.Tiere && localStorage.delTiere){ //Daten einlesen von localStorage...
 	var Tiere = JSON.parse(localStorage.Tiere);
@@ -38,13 +39,20 @@ if(localStorage.FilterAr){ //gewählte Filter laden
 	var FilterAr = [];
 }
 
+if(localStorage.RightA && localStorage.FalseA){ //Prozentsatz laden
+	var richtigeA = JSON.parse(localStorage.RightA);
+	var falscheA = JSON.parse(localStorage.FalseA);
+} else{
+	var richtigeA = 0;
+	var falscheA = 0;
+}
+
 if(!TiereMeta.dv){  //Daten-Format Update
 	TiereMeta.dv = dataversion;
 	TiereMeta.v = 0;
 };
 
-/* Toggle between adding and removing the "responsive" class to topnav when the user clicks on the icon */
-function smallMenu() {
+function smallMenu() { //Klasse von navbar Elementen zum ein- und ausklappen ändern bei klick auf das Menüsymbol bei kleinem Bildschirm
     var x = document.getElementById("navbar");
     if (x.className === "navbar") {
         x.className += " responsive";
@@ -53,7 +61,7 @@ function smallMenu() {
     }
 } 
 
-function MenuIcon(x) {
+function MenuIcon(x) { //Menüsymbol ändern bei klicken
     x.classList.toggle("change");
 } 
 
@@ -79,12 +87,7 @@ function init (){ //Prüfen auf eigene Liste
 	if(!(localStorage.TiereMeta && localStorage.Tiere && localStorage.delTiere) || (TiereMeta.Id1 == defaultId1 && TiereMeta.Id2 == defaultId2)){ //Wenn man das erste mal die Seite besucht, oder die Default Liste eingestellt hat
 		document.getElementById("dellist").style.display = "none";
 	}
-	/*console.log(RealWindowW);
-	console.log(document.getElementById("icon").getComputedStyle);
-	document.getElementById("icon").style.left = RealWindowW;
-	console.log(document.getElementById("icon"));*/
 }
-
 
 function save() {  //Speichern im local Storage (bei verlassen der Seite)
 	var date = new Date();
@@ -95,9 +98,11 @@ function save() {  //Speichern im local Storage (bei verlassen der Seite)
 	if(FilterAr){
 		localStorage.FilterAr = JSON.stringify(FilterAr);
 	}
+	localStorage.RightA = JSON.stringify(richtigeA);
+	localStorage.FalseA = JSON.stringify(falscheA);
 }
 
-function filter(gTiere, lTiere, filterarr){
+function filter(gTiere, lTiere, filterarr){ //Anwenden des Filterarrays auf die Tierliste
 	filterarr.forEach(function(elm) {
 		var qu = elm.split(": ");
 		for (var n = 0; n<lTiere.length; n++){
@@ -110,19 +115,22 @@ function filter(gTiere, lTiere, filterarr){
 	});
 }
 
-function dellistdisplay(){
+function dellistdisplay(){ //die Anzeige des Zurücksetzen button wird der Bildschirmgröße angepasst
 	document.getElementById("dellist").style.display = document.getElementById("Kontakt").style.display;
 }
 
 function quiz(){ //Code für die Quiz-Seite
 
 	var randnum;
+	var darwinLinne = false;
 	
-	filter(delTiere,Tiere,FilterAr);	//Die inertiale Filterliste generieren
+	//Die inertiale Filterliste generieren
+	//filter(delTiere,Tiere,FilterAr);	
 	FilterAr.forEach(function(el){
 		var span = document.createElement("SPAN");
 		span.innerText = el;
-		span.style.display = "Block";
+		span.className = "filters";
+		span.title = "Zum entfernen des Filters klicken";
 		filters = document.getElementById("filters");
 		filters.appendChild(span);
 		span.onclick = function(){ //entfernen des Filters
@@ -142,7 +150,8 @@ function quiz(){ //Code für die Quiz-Seite
 	}
 	
 	function randIm(){ //zufälliges Bild wird angezeigt
-	
+		
+		//während laden des Bildes Ladesymbol anzeigen
 		var loadsymbol = document.getElementById("loadsymbol");
 		loadsymbol.style.display = "initial";
 		
@@ -150,14 +159,14 @@ function quiz(){ //Code für die Quiz-Seite
 		if (Tiere.length == 0){ //zurücksetzten wenn alle Bilder richtig bestimmt wurden
 			Tiere = delTiere;
 			delTiere = [];
-			if (Tiere.length == 1 && !Tiere.Bildlink){
+			if (Tiere.length == 0){ //wenn neue Liste mit nur einem leeren Eintrag (neue Liste bei bearbeiten)
 				loadsymbol.style.display = "none";
 				if(confirm("Die Liste enthält keine Einträge. Liste bearbeiten?")){
 					window.location.href = "Verwalten.html";
 				}
 			}
 			filter(delTiere,Tiere,FilterAr);
-			if (Tiere.length == 0){
+			if (Tiere.length == 0){ //wenn nach laden eigener Liste der Filter nicht mehr passt weil Einträge weg sind
 				loadsymbol.style.display = "none";
 				if(confirm("Der Filter liefert kein Ergebnis. Filter entfernen?")){
 					FilterAr = [];
@@ -174,14 +183,31 @@ function quiz(){ //Code für die Quiz-Seite
 		var windowW = window.innerWidth;
 		var windowH = window.innerHeight-22;
 		
+		//Bild und Bildinfo während dem Laden ausblenden
 		var image = document.getElementById("bild");
-		image.style.display ="none";
-		image.src = randel.BildLink;
-		image.alt = "Error 404: Bild ist nicht mehr abrufbar. \nEintrag #: "+randel.num;
+		image.style.display ="none"; 
+		document.getElementById("bildinfo").style.display = "none";
 		
-		image.onload = function(){ //Bildgröße anpasseen
-			imW = image.naturalWidth;
-			imH = image.naturalHeight;
+		{ //Prüfen auf fehler im Bildlink bzw. image.src=BildLink wenn richtig
+		darwinLinne = false;
+		if (!randel.BildLink){ //Prüfen auf fehlenden Bildlink, dann Darwin
+			image.src = "graphics/Darwin.jpg";
+			document.getElementById("bildinfo").innerHTML = "Charles Darwin persönlich ist von dir enttäuscht, weil du bei ID#"+randel.num+" die Bildadresse vergessen hast!";
+			darwinLinne = true;
+		} else{
+			image.src = randel.BildLink;
+		}
+		
+		image.onerror = function(){ //Prüfen auf fehlerhaften Bildlink, dann Linne
+			image.src = "graphics/Linne.jpg";
+			document.getElementById("bildinfo").innerHTML = "Hier ist Carl von Linné weil die Bildadresse von ID#"+randel.num+" falsch, oder das Bild an dieser Adresse nicht mehr existiert!";
+			darwinLinne = true;
+		}
+		}
+		
+		image.onload = function(){ //Bildgröße anpassen und Bild und Bildinfo anzeigen
+			var imW = image.naturalWidth;
+			var imH = image.naturalHeight;
 			var ratio = Math.min(windowW / imW, windowH / imH);
 			if(ratio <1){
 				image.width = ratio*imW;
@@ -189,6 +215,13 @@ function quiz(){ //Code für die Quiz-Seite
 			}
 			image.style.display = "block";
 			loadsymbol.style.display = "none";
+			
+			if (randel.BildInfo || darwinLinne){
+				if (!darwinLinne) { //Bilduntertext anzeigen
+					document.getElementById("bildinfo").innerHTML = randel.BildInfo;	
+				}
+				document.getElementById("bildinfo").style.display = "block";
+			}
 			
 			if (image.width > 350){ //Bestimmt wie Bilduntertext angepasst wird
 				document.getElementById("bildinfo").style.width = (image.width-2)+"px";
@@ -199,9 +232,9 @@ function quiz(){ //Code für die Quiz-Seite
 		
 		document.getElementById("number").innerHTML = randel.num;
 		
-		if (randel.BildInfo) { //Bilduntertext
-			document.getElementById("bildinfo").innerHTML = randel.BildInfo;
-			document.getElementById("bildinfo").style.display = "block";
+		var ges = richtigeA + falscheA; //Prozentsatz richtiger Antworten anzeigen
+		if(ges > 0){
+			document.getElementById("prozent").innerHTML = Math.floor((richtigeA/ges)*10000)/100+"%";
 		}
 		
 		var atable = document.getElementById("antworttext");
@@ -220,7 +253,6 @@ function quiz(){ //Code für die Quiz-Seite
 				cell2.innerHTML = randel[el];
 			}
 		}
-		
 		return randnum;
 	};
 	
@@ -229,24 +261,32 @@ function quiz(){ //Code für die Quiz-Seite
 		event.preventDefault();
 	});
 	
-	//Antwortbuttons richtig/falsch
+	{//Antwortbuttons richtig/falsch
 	document.getElementById("richtig").onclick = function(){
 		delTiere.push(Tiere[randnum]);
 		Tiere.splice(randnum,1);
+		if (!darwinLinne){
+			richtigeA++;
+		}
 		nextround();
 	}
-	document.getElementById("falsch").onclick = function(){ 
+	document.getElementById("falsch").onclick = function(){
+		if (!darwinLinne){
+			falscheA++;
+		}
 		nextround();
+	}
 	}
 	
 	function nextround(){ //nächstes Bild wird geladen
 		document.getElementById('popup').style.display='none';
-		/*var image = document.getElementById("bild");
-		image.src = "graphics/loader.gif";
-		image.width = "64px";
-		image.height = "64px";
-		image.style.display = "block";*/
 		randnum=randIm();
+	}
+	
+	document.getElementById("prozent").onclick = function(){//Prozent zurücksetzen
+		richtigeA = 0;
+		falscheA = 0;
+		document.getElementById("prozent").innerHTML = "0%";
 	}
 	
 	document.getElementById("loadlist").onchange = function() { //Eigene liste laden
@@ -257,14 +297,14 @@ function quiz(){ //Code für die Quiz-Seite
 		dellistdisplay();
 	};
 	
-	document.getElementById("dellist").onclick = function(){ //Default liste laden
+	document.getElementById("dellist").onclick = function(){ //Default liste laden nach zurücksetzen
 		if (confirm("Sollten alle Einträge in der Liste unwiderruflich gelöscht und die Standardliste wiederhergestellt werden?")){
 			defaultlist();
 			startquiz();
 		}
 	}
-	
-	//Filter anwenden
+	 
+	{ //Filter anwenden
 	var searchfield = document.getElementById("searchfield");
 	var nTiere, filtera;
 	searchfield.onfocus = function(){
@@ -279,18 +319,28 @@ function quiz(){ //Code für die Quiz-Seite
 			var patt = new RegExp(expr,"i");
 			nTiere.forEach(function(el){
 				for(elem in el){
-					if(elem!="Merkmale" && elem!="Link" && elem!="BildLink" && patt.test(el[elem])){
+					if(elem!="Merkmale" && elem!="Link" && elem!="BildLink" && elem!="BildInfo" && patt.test(el[elem])){
 						hits.push(elem+": "+el[elem]);
 					}
 				}
 			});
-			var hits = [...new Set(hits)]; // Macht die Werte in hits einzigartig
+			var hits = [...new Set(hits)];// Macht die Werte in hits einzigartig
+			if(hits.length == 0){
+				newAnswer("Keine Übereinstimmung");
+				return;
+			}
 		}
-		hits.forEach(function(el){
+		
+		function newAnswer(string){
 			var li = document.createElement("SPAN");
-			li.innerText = el;
+			li.innerText = string;
 			li.style.display = "Block";
 			filtera.appendChild(li);
+			return li;
+		}
+		
+		hits.forEach(function(el){
+			var li = newAnswer(el);
 			var span = li;
 			li.onclick = function(){ //hinzufügen des Filters
 				var actualTier = Tiere[randnum];
@@ -312,6 +362,8 @@ function quiz(){ //Code für die Quiz-Seite
 				
 				//filters = document.getElementById("filters");
 				//filters.appendChild(span);
+				span.className = "filters";
+				span.title = "Zum entfernen des Filters klicken";
 				span.onclick = function(){ //entfernen des Filters
 					FilterAr.splice(FilterAr.indexOf(el),1);
 					filter(Tiere,delTiere,[el]);
@@ -321,6 +373,7 @@ function quiz(){ //Code für die Quiz-Seite
 				searchfield.value = "";
 			}
 		});
+	}
 	}
 };
 
@@ -345,7 +398,7 @@ function DataInput(){ // Code für die Verwalten-Seite
 					}
 				});
 			}
-			for(var i=0; i<alleTiere.length; i++){
+			for(var i=0; i<alleTiere.length; i++){ //aufbau der Tabelle
 				var tr = tbl.tBodies[0].insertRow();
 				tr.id = i+1;
 				buttons(tr);
@@ -358,6 +411,7 @@ function DataInput(){ // Code für die Verwalten-Seite
 					}
 					input.className = el;
 					td.className = el;
+					input.title = "Zum Ändern klicken";
 					switch (el){
 						case "Art":
 							input.size = 50;
@@ -376,6 +430,9 @@ function DataInput(){ // Code für die Verwalten-Seite
 								Tiere.push(alleTiere[i]);
 								console.log(Tiere);
 							}
+							break;
+						case "BildLink":
+							input.title = 'Rechtsklick -> "Bildadresse/Grafikadresse kopieren",\nauf das im Internetbrowser geöffnete Bild um die Bildadresse/Grafikadresse zu erhalten';
 					}
 					input.type = "text";
 					input.name = "ip";
@@ -422,6 +479,7 @@ function DataInput(){ // Code für die Verwalten-Seite
 		delbutton.type = "button";
 		delbutton.className = "dabuttons";
 		delbutton.id = "delbutton";
+		delbutton.title = "Diese Zeile löschen"
 		delbutton.addEventListener("click", function(event) {
 			changedList();
 			var row= this.parentNode.parentNode
@@ -441,6 +499,7 @@ function DataInput(){ // Code für die Verwalten-Seite
 		addbutton.type = "button";
 		addbutton.className = "dabuttons";
 		addbutton.id = "addbutton";
+		addbutton.title = "Neue Zeile unter dieser Zeile hinzufügen"
 		addbutton.addEventListener("click", function(event) {
 			Tiere.push(new Tier);
 			var newrow = tbl.tBodies[0].insertRow(row.rowIndex);
@@ -453,6 +512,7 @@ function DataInput(){ // Code für die Verwalten-Seite
 				input.name = "ip";
 				input.value = newrow.previousSibling.cells[i].firstChild.value;
 				input.className = newrow.previousSibling.cells[i].firstChild.className;
+				input.title = newrow.previousSibling.cells[i].firstChild.title;
 				cell.className = input.className;
 				input.style.color = "#808080";
 				switch (i){
@@ -526,54 +586,66 @@ function DataInput(){ // Code für die Verwalten-Seite
 	};
 	
 	document.getElementById("newlist").onclick = function(){
-		TiereMeta.Id1 = Math.random();
-		changedList();
-		TiereMeta.Maxid = 0;
-		TiereMeta.v = 0;
-		Tiere = [new Tier];
-		delTiere = [];
-		
-		var new_tbody = document.createElement('tbody');
-		var newrow = new_tbody.insertRow();
-		newrow.id = 1;
-		buttons(newrow);
-		for (el in dummyTier){
-			var cell = newrow.insertCell();
-			var input = document.createElement("input");
-			input.type = "text";
-			input.name = "ip";
-			input.style.color = "#808080";
-			input.className = el;
-			cell.className = el;
-			switch (el){
-				case "Art":
-					input.size = 50;
-					break;
-				case "Merkmale":
-				case "Link":
-					input.size = 150;
-					break;
-				case "num":
-					input.size = 3;
-					input.readOnly = true;
-					input.value = TiereMeta.Maxid;
-					Tiere[0].num = TiereMeta.Maxid.toString();
-			}
-			input.type = "text";
-			input.name = "ip";
-			
-			input.onchange = function(){
-				this.style.color = "#1344a0";
-				change(this);
-			}
-			input.ondblclick = function(){
-				this.style.color = "#1344a0";
-			}
-			cell.appendChild(input);
-			change(input);
+	
+		var rnewlist = true;
+	
+		if (!(defaultId1 == TiereMeta.Id1 && defaultId2 == TiereMeta.Id2)){
+			rnewlist = confirm("Sollten alle Einträge in der Liste unwiderruflich gelöscht und eine neue leere Liste erstellt werden?");
 		}
-		var old_tbody = tbl.tBodies[0];
-		old_tbody.parentNode.replaceChild(new_tbody, old_tbody);
+		
+		if (rnewlist){
+			TiereMeta.Id1 = Math.random();
+			changedList();
+			TiereMeta.Maxid = 0;
+			TiereMeta.v = 0;
+			Tiere = [new Tier];
+			delTiere = [];
+			
+			var new_tbody = document.createElement('tbody');
+			var newrow = new_tbody.insertRow();
+			newrow.id = 1;
+			buttons(newrow);
+			for (el in dummyTier){
+				var cell = newrow.insertCell();
+				var input = document.createElement("input");
+				input.type = "text";
+				input.name = "ip";
+				input.style.color = "#808080";
+				input.className = el;
+				cell.className = el;
+				switch (el){
+					case "Art":
+						input.size = 50;
+						break;
+					case "Merkmale":
+					case "Link":
+						input.size = 150;
+						break;
+					case "num":
+						input.size = 3;
+						input.readOnly = true;
+						input.value = TiereMeta.Maxid;
+						Tiere[0].num = TiereMeta.Maxid.toString();
+						break;
+					case "BildLink":
+						input.title = 'Rechtsklick -> "Bildadresse/Grafikadresse kopieren",\nauf das im Internetbrowser geöffnete Bild um die Bildadresse/Grafikadresse zu erhalten';
+				}
+				input.type = "text";
+				input.name = "ip";
+				
+				input.onchange = function(){
+					this.style.color = "#1344a0";
+					change(this);
+				}
+				input.ondblclick = function(){
+					this.style.color = "#1344a0";
+				}
+				cell.appendChild(input);
+				change(input);
+			}
+			var old_tbody = tbl.tBodies[0];
+			old_tbody.parentNode.replaceChild(new_tbody, old_tbody);
+		}
 	}
 	
 	document.getElementById("querysubmit").onclick = function(){
@@ -638,7 +710,6 @@ function DataInput(){ // Code für die Verwalten-Seite
 			loaddata(window.URL.createObjectURL(file));
 			Inputlist(true);
 			window.URL.revokeObjectURL(file);
-			//localStorage.owndata = true;
 			dellistdisplay();
 	};
 	
