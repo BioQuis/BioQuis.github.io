@@ -9,7 +9,7 @@
   
     <title>BioQuis</title>
   </head>
-  <body onload="quiz(); init();" onunload = "save()"> 
+  <body onload="quiz(); init();" onunload = "save();"> 
   
 	
 	<ul class="navbar" id = "navbar">
@@ -29,14 +29,14 @@
 		</li>
 		<li class="dropdown">
 			<span class="dropbtn" title="Angezeigte Bilder nach Gattung-/Familien-/Ordnungsname/etc filtern">Filter</span>
-			<div class="dropdown-content" id="filterdiv">
+			<div class="dropdown-content stayonfocus" id="filterdiv">
 				<div id="filters"></div>
 				<input type="text" id = "searchfield" class="fileinput" size="40" title="Gattungs-/Familien-/Ordungsname/etc eingeben">
 				<div id="filteranswers" title="Zur Auswahl klicken"></div>
 			</div>
 		</li>
 		<li type="button" id="dellist" class="dellist" title="Standartliste wiederherstellen">Zurücksetzen &times;</li>
-		<li id = "Kontakt"><a href="About.html" title="Informationen über diese Seite">Kontakt</a></li>
+		<li id = "Help"><a href="Help.html" title="Informationen über diese Seite">Hilfe</a></li>
 	</ul>
 	
 	<p class="IE">Internet Explorer besitzt leider nicht die für die Funktion dieser Seite erforderlichen Fähigkeiten, bitte verwende einen beliebigen anderen Internetbrowser (z.B. Firefox, Opera, Chrome).</p> 
@@ -51,15 +51,61 @@
 			<p id="fortschritt" title="Anzahl der richtigen Antworten in dieser Runde"></p>
 		</div>
 		
-		<div id="popup">
-			<div id="popup-content">
-				<span onclick="document.getElementById('popup').style.display='none'" class="close" title="Close Modal">&times;</span>
+		<div id="popup" class="popup">
+			<div class="popup-content">
+				<span onclick="document.getElementById('popup').style.display='none'" class="close" title="Informationsanzeige schließen">&times;</span>
 				<div class="antworttable">
 					<table id="antworttext" class="antworttext"></table>
 				</div>
 				<div class="rof">
 					<button type="button" id="richtig" class ="rofbutton" title="Das Bild in dieser Runde nicht mehr wiederhohlen">Wusste ich &#10003;</button>
 					<button type="button" id="falsch" class="rofbutton" title="Das Bild in dieser Runde nochmals anzeigen">Nicht gewusst &#10007;</button>
+				</div>
+			</div>
+		</div>
+		
+		<div id="firstInfoIndex" class="popup">
+			<div class="popup-content">
+				<span onclick="document.getElementById('firstInfoIndex').style.display='none'" class="close" title="Informationsanzeige schließen">&times;</span>
+				
+				<h2>Willkommen auf BioQuis</h2>
+				
+				<p id="Goethe">Wie schon Goethe niederschrieb: "Man sieht nur, was man weiß". Ganz in diesem Sinne sollte BioQuis helfen die Lebewesen unserer Umwelt kennen zu lernen und dadurch ermöglichen die überweltigende Vielfalt unseres nächsten Umfeldes wahrzunehmen.</p>
+				
+				<p>Die Folgenden und weitere Informationen über diese Website können jederzeit durch klick auf "<a href="help.html">Hilfe</a>" im Menü am oberen Rand der Website abgerufen werden.
+				
+				<h4 id="HBildanzeige">Wie funktioniert diese Seite?</h4>
+				<p class="HParagraph">Hier in der Bildanzeige wird ein zufälliges Bild eines Lebewesens aus einer vorgefertigten <a href="Verwalten.html" target="_blank">Liste</a> angezeigt, bei Klick auf das Bild wird der Name und weitere Informationen über das abgebildete Lebewesen angezeigt. Klickt man <button type="button" title="Wusste ich Button">Wusste ich &#10003;</button> am unteren Ende der Informationsanzeige, so wird das Bild in dieser Runde kein weiteres mal wiederholt und das nächste zufällige Bild aus den in dieser Runde verbleibenden Bildern aus der Liste angezeigt. Es empfiehlt sich diesen Button zu wählen wenn man das Lebewesen am Bild richtig erkannt hat. Wählt man <button type="button" title="Nicht gewusst Button">Nicht gewusst &#10007;</button> so wird das Bild in dieser Runde erneut angezeigt werden.</p>
+
+				<h4 id="HListeBearbeiten">Wie kann ich die Liste einsehen/bearbeiten?</h4>
+				<p class="HParagraph">Um die <a href="Verwalten.html" target="_blank">Liste</a> aus welcher die Bilder und Informationen der <a href="index.html" target="_blank">Bildanzeige</a> gewählt werden anzuzeigen und zu bearbeiten im Menü am oberen Rand der Bildanzeige oder Hilfe "Liste bearbeiten" klicken.</p>
+				
+				<h4 id="HEigeneListe">Wie kann ich eine eigene Liste verwenden?</h4>
+				<p class="HParagraph">Möchte man eine <a href="Help.html#HExportieren">eigene Liste welche als .json Datei vorliegt</a> verwenden so kann man diese unter "Eigene Liste" &#8674 "Durchsuchen" im Menü am oberen Rand der <a href="index.html" target="_blank">Bildanzeige</a> oder <a href="Verwalten.html" target="_blank">Liste</a> wählen. Bei Listen aus nicht vertrauenswürdigen Quellen sollte die <a href="#HSicherheitshinweis">Sicherheitshinweise</a> beachtet werden. Durch das öffnen einer neuen Liste wird die derzeit geöffnete Liste verworfen, um Datenverlust zu vermeiden sollte die derzeit geöffnete Liste davor <a href="Help.html#HExportieren">exportiert</a> werden.</p>
+				
+				<h4 id="HZurücksetzen">Wie komme ich zurück zur Standardliste der Website?</h4>
+				<p class="HParagraph">Um wieder die Standardliste der Website zu verwenden im Menü am oberen Rand der <a href="index.html" target="_blank">Bildanzeige</a> oder <a href="Verwalten.html" target="_blank">Liste</a> "Zurücksetzen &times;" wählen. ("Zurücksetzen &times;" wird nicht angezeigt wenn bereits die Standardliste verwendet wird.) Durch das öffnen der Standardliste wird die derzeit geöffnete Liste verworfen, um Datenverlust zu vermeiden sollte die derzeit geöffnete Liste davor <a href="Help.html#HExportieren">exportiert</a> werden.</p>
+				
+				<h4 id="HFilter">Wie kann ich in der Bildanzeige nur eine spezielle Gruppe von Lebewesen anzeigen lassen?</h4>
+				<p class="HParagraph">Im Menü am oberen Rand der <a href="index.html" target="_blank">Bildanzeige</a> "Filter" wählen. Nun den Namen der gewünschten Gruppe eingeben und den entsprechenden Eintrag durch Klick aus den Vorschlägen wählen. Es werden nun nur noch Bilder angezeigt die der gewählten Gruppe angehören. Es ist möglich nach <a href="Help.html#HID">ID#</a>, <a href="Help.html#HName">Name</a>, <a href="Help.html#HName">Gruppe</a> und  den <a href="Help.html#HSystematik">Taxa der Systematik der Biologie</a> zu Filtern.</p>
+				
+				<h4 id="HFilterEntfernen">Wie kann ich einen Filter entfernen?</h4>
+				<p class="HParagraph">Im Menü am oberen Rand der <a href="index.html" target="_blank">Bildanzeige</a> "Filter" wählen. Durch Klick auf den angewandten Filter im Dialogfeld kann dieser entfernt werden.</p>
+				
+				<h4 id="HProzent">Was ist die Prozentanzeige links unten in der Bildanzeige?</h4>
+				<p class="HParagraph">Die Prozentanzeige links unten in der <a href="index.html" target="_blank">Bildanzeige</a> drückt das Verhältnis zwischen gewussten und nicht gewussten Einträgen in Prozent gewusster Einträge aus. Zum zurücksetzen dieses Zählers auf die Prozentzahl klicken.</p>
+
+				<h4 id="HNummer">Was ist die Nummer rechts unten in der Bildanzeige?</h4>
+				<p class="HParagraph">Die Nummer rechts unten in der <a href="index.html" target="_blank">Bildanzeige</a> ist die <a href="Help.html#HID">ID#</a> dieses Eintrages in der <a href="Verwalten.html" target="_blank">Liste</a>. Dies sollte das auffinden eines in der Bilderanzeige als fehlerhaft erkannten Eintrages in der Liste erleichtern.</p>
+				
+				<h4 id="HLinne">Warum wird mir Carl von Linné in der Bildanzeige angezeigt?</h4>
+				<p class="HParagraph">Carl von Linné wird in der <a href="index.html" target="_blank">Bildanzeige</a> angezeigt wenn für einen Eintrag in der <a href="Verwalten.html" target="_blank">Liste</a> kein Bild geladen werden kann. Dies kann der Fall sein wenn das Bild unter der angegebenen Grafikadresse/Bildadresse nicht mehr existiert, die Grafikadresse/Bildadresse fehlerhaft ist oder die Internetverbindung unterbrochen ist. Um die beiden erstgenannten Probleme zu beheben für den entsprechenden Eintrag in der Liste eine gültige Grafikadresse/Bildadresse im <a href="Help.html#HBildadresse">Feld Grafik-/Bildadresse</a> angeben oder den <a href="Help.html#HLoeschen">Eintrag löschen</a>. Die <a href="Help.html#HID">ID#</a> des zu bearbeitenden Eintrages ist im Bilduntertext und <a href="Help.html#HNummer">rechts unten in der Bildanzeige</a> angegeben.</p>
+				
+				
+				<div class="rof">
+					<p>Diese Information beim nächsten Besuch der Seite</p>
+					<button type="button" id="Verstanden" class ="rofbutton" title="Diesen Informationstext beim in Zukunft nicht mehr anzeigen">Nicht mehr anzeigen</button>
+					<button type="button" id="nichtVerstanden" class="rofbutton" title="Diesen Informationstext beim nächten Besuch erneut anzeigen">Erneut anzeigen</button>
 				</div>
 			</div>
 		</div>
