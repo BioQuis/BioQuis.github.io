@@ -44,7 +44,7 @@ var dummyTier = new Tier();
 var timeout = 500;
 var dataversion = '1.3'; //Daten-Format Version
 var defaultId1 = "0.8554224974327433"; //Werte der Default-Liste
-var defaultId2 = "0.12241533313095321"; //Werte der Default-Liste
+var defaultId2 = "0.5857847995500236"; //Werte der Default-Liste
 }
 
 if(localStorage.TiereMeta && localStorage.Tiere && localStorage.delTiere){ //Daten einlesen von localStorage...
@@ -198,6 +198,9 @@ function quiz(){ //Code für die Quiz-Seite
 	
 	if(firstvisit.index){
 		document.getElementById("firstInfoIndex").style.display = "block";
+		if(!firstvisit.verwalten){
+			document.getElementById("Goethe").style.display = "none";
+		}
 	}
 	
 	var randnum;
@@ -333,20 +336,12 @@ function quiz(){ //Code für die Quiz-Seite
 						cell1.innerHTML = "Weitere Informationen:"
 						break;
 					case "Link":
-						var splited = randel[el].split(" & ");
+						var link = document.createElement("a");
+						link.innerHTML = randel[el];
+						link.href = randel[el];
+						link.target ="_blank"
 						cell2.innerHTML = "";
-						for (var elem of splited){
-							elem = elem.trim();
-							var link = document.createElement("a");
-							link.innerHTML = elem;
-							link.href = elem;
-							link.target ="_blank"
-							cell2.appendChild(link);
-							var span = document.createElement("SPAN");
-							span.innerHTML = " & ";
-							cell2.appendChild(span);
-						}
-						cell2.removeChild(cell2.lastChild);
+						cell2.appendChild(link);
 				}
 			}
 		}
@@ -487,6 +482,9 @@ function DataInput(){ // Code für die Verwalten-Seite
 
 	if(firstvisit.verwalten){
 		document.getElementById("firstInfoIndex").style.display = "block";
+		if(!firstvisit.index){
+			document.getElementById("Goethe").style.display = "none";
+		}
 	}
 
 	var tbl = document.getElementById("tiere");
@@ -653,10 +651,8 @@ function DataInput(){ // Code für die Verwalten-Seite
 				var input = document.createElement("input");
 				input.type = "text";
 				input.name = "ip";
+				input.value = newrow.previousSibling.cells[i].firstChild.value;
 				input.className = newrow.previousSibling.cells[i].firstChild.classList[0];
-				if(input.className != "BildLink"){
-					input.value = newrow.previousSibling.cells[i].firstChild.value;
-				}
 				input.title = newrow.previousSibling.cells[i].firstChild.title;
 				cell.className = input.className;
 				input.style.color = "#808080";
@@ -875,7 +871,6 @@ function DataInput(){ // Code für die Verwalten-Seite
 		for(i=1; i<tbl.rows.length; i++){
 			if(queryselector2 == "Alle" || tbl.rows[i].querySelector("."+queryselector2).firstChild.value == document.getElementById("queryvalue2").value){
 				var input = tbl.rows[i].querySelector("."+queryselector1).firstChild;
-				input.style.color = "#B22222";
 				input.value = document.getElementById("queryvalue1").value;
 				change(input);
 			}
