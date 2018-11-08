@@ -44,7 +44,7 @@ var dummyTier = new Tier();
 var timeout = 500;
 var dataversion = '1.3'; //Daten-Format Version
 var defaultId1 = "0.8554224974327433"; //Werte der Default-Liste
-var defaultId2 = "0.5857847995500236"; //Werte der Default-Liste
+var defaultId2 = "0.23182882324421072"; //Werte der Default-Liste
 }
 
 if(localStorage.TiereMeta && localStorage.Tiere && localStorage.delTiere){ //Daten einlesen von localStorage...
@@ -198,9 +198,6 @@ function quiz(){ //Code für die Quiz-Seite
 	
 	if(firstvisit.index){
 		document.getElementById("firstInfoIndex").style.display = "block";
-		if(!firstvisit.verwalten){
-			document.getElementById("Goethe").style.display = "none";
-		}
 	}
 	
 	var randnum;
@@ -300,7 +297,7 @@ function quiz(){ //Code für die Quiz-Seite
 			
 			if (randel.BildInfo || darwinLinne){
 				if (!darwinLinne) { //Bilduntertext anzeigen
-					document.getElementById("bildinfo").innerHTML = randel.BildInfo;	
+					document.getElementById("bildinfo").innerHTML = urlcheck(randel.BildInfo);
 				}
 				document.getElementById("bildinfo").style.display = "block";
 			}
@@ -336,17 +333,41 @@ function quiz(){ //Code für die Quiz-Seite
 						cell1.innerHTML = "Weitere Informationen:"
 						break;
 					case "Link":
-						var link = document.createElement("a");
-						link.innerHTML = randel[el];
-						link.href = randel[el];
-						link.target ="_blank"
+						var splited = randel[el].split(" & ");
 						cell2.innerHTML = "";
-						cell2.appendChild(link);
+						for (var elem of splited){
+							elem = elem.trim();
+							var link = document.createElement("a");
+							link.innerHTML = elem;
+							link.href = elem;
+							link.target ="_blank"
+							cell2.appendChild(link);
+							var span = document.createElement("SPAN");
+							span.innerHTML = " & ";
+							cell2.appendChild(span);
+						}
+						cell2.removeChild(cell2.lastChild);
 				}
 			}
 		}
 		return randnum;
 	};
+	
+	function urlcheck(text) {
+		var aRegex = /<a.{1,}?>.*?<\/\s*a\s*>/ig;
+		alink = text.match(aRegex);
+		text = text.replace(aRegex,"2eorertzkgfcxxsyrtkrgjvndjdeif23424SDGFGFewrtjhgd5");
+		var urlRegex = /\bhttps?:\S*[^\.<>]/ig;
+		text = text.replace(urlRegex, function(url) {
+			return '<a href="' + url + '" target="_blank">' + url + '</a>';
+		})
+		if(alink){
+			for(el of alink){
+				text = text.replace("2eorertzkgfcxxsyrtkrgjvndjdeif23424SDGFGFewrtjhgd5",el);
+			}
+		}
+		return text;
+	}
 	
 	document.getElementById("bild").addEventListener("click", function(event) { //Anzeigen der Antwort bei Click auf bild
 		document.getElementById('popup').style.display='block'
@@ -482,9 +503,6 @@ function DataInput(){ // Code für die Verwalten-Seite
 
 	if(firstvisit.verwalten){
 		document.getElementById("firstInfoIndex").style.display = "block";
-		if(!firstvisit.index){
-			document.getElementById("Goethe").style.display = "none";
-		}
 	}
 
 	var tbl = document.getElementById("tiere");
@@ -564,16 +582,16 @@ function DataInput(){ // Code für die Verwalten-Seite
 					}
 					input.type = "text";
 					input.name = "ip";
-					if (initial){
-						input.onchange = function(){
-							this.style.color = "#B22222";
-							change(this);
+					input.onchange = function(){
+						this.style.color = "#B22222";
+						change(this);
+					}
+					if (!initial){
+						if(el != "num"){
+							input.style.color = "#808080";
 						}
-					}else{
-						input.style.color = "#808080";
-						input.onchange = function(){
-							this.style.color = "#1344a0";
-							change(this);
+						else{
+							input.style.color = "#1344a0";
 						}
 						input.ondblclick = function(){
 							this.style.color = "#1344a0";
@@ -651,8 +669,10 @@ function DataInput(){ // Code für die Verwalten-Seite
 				var input = document.createElement("input");
 				input.type = "text";
 				input.name = "ip";
-				input.value = newrow.previousSibling.cells[i].firstChild.value;
 				input.className = newrow.previousSibling.cells[i].firstChild.classList[0];
+				if(input.className != "BildLink"){
+					input.value = newrow.previousSibling.cells[i].firstChild.value;
+				}
 				input.title = newrow.previousSibling.cells[i].firstChild.title;
 				cell.className = input.className;
 				input.style.color = "#808080";
@@ -667,7 +687,7 @@ function DataInput(){ // Code für die Verwalten-Seite
 				}
 				
 				input.onchange = function(){
-					this.style.color = "#1344a0";
+					this.style.color = "#B22222";
 					change(this);
 				}
 				input.ondblclick = function(){
@@ -871,6 +891,7 @@ function DataInput(){ // Code für die Verwalten-Seite
 		for(i=1; i<tbl.rows.length; i++){
 			if(queryselector2 == "Alle" || tbl.rows[i].querySelector("."+queryselector2).firstChild.value == document.getElementById("queryvalue2").value){
 				var input = tbl.rows[i].querySelector("."+queryselector1).firstChild;
+				input.style.color = "#B22222";
 				input.value = document.getElementById("queryvalue1").value;
 				change(input);
 			}
