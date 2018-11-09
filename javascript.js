@@ -291,6 +291,9 @@ function quiz(){ //Code für die Quiz-Seite
 			if(ratio <1){
 				image.width = ratio*imW;
 				image.height = ratio*imH;
+			}else{
+				image.width = imW;
+				image.height = imH;
 			}
 			image.style.display = "block";
 			loadsymbol.style.display = "none";
