@@ -64,10 +64,14 @@
 		<div id="popup" class="popup">
 			<div class="popup-content">
 				<span onclick="document.getElementById('popup').style.display='none'" class="close" title="Informationsanzeige schließen">&times;</span>
+				<div class="rof" id="rofoben">
+					<button type="button" id="richtig" class ="rofbutton" title="Das Bild in dieser Runde nicht mehr wiederhohlen">Wusste ich &#10003;</button>
+					<button type="button" id="falsch" class="rofbutton" title="Das Bild in dieser Runde nochmals anzeigen">Nicht gewusst &#10007;</button>
+				</div>
 				<div class="antworttable">
 					<table id="antworttext" class="antworttext"></table>
 				</div>
-				<div class="rof">
+				<div class="rof" id="rofunten">
 					<button type="button" id="richtig" class ="rofbutton" title="Das Bild in dieser Runde nicht mehr wiederhohlen">Wusste ich &#10003;</button>
 					<button type="button" id="falsch" class="rofbutton" title="Das Bild in dieser Runde nochmals anzeigen">Nicht gewusst &#10007;</button>
 				</div>

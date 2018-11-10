@@ -327,7 +327,8 @@ function quiz(){ //Code für die Quiz-Seite
 				var row = atable.insertRow(-1) //last position also for Safari
 				var cell1 = row.insertCell(0);
 				var cell2 = row.insertCell(1);
-				
+				cell1.className = "leftcolumn";
+				cell2.className = "rightcolumn";
 				cell1.innerHTML = el+":";
 				cell2.innerHTML = randel[el];
 				
@@ -529,6 +530,9 @@ function DataInput(){ // Code für die Verwalten-Seite
 				break;
 			case "BildInfo":
 				option.innerHTML = "Bildinformation";
+				break;
+			case "Info":
+				option.innerHTML = "Weitere Informationen";
 				break;
 			default:
 				option.innerHTML = el;
@@ -937,6 +941,7 @@ function DataInput(){ // Code für die Verwalten-Seite
 	
 	document.getElementById("list2").onchange = function(){
 			var file = this.files[0];
+			changedList();
 			fetch(window.URL.createObjectURL(file))
 				.then((response) => response.json())
 				.then(function(data) {
