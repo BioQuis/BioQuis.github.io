@@ -22,7 +22,7 @@ body {
     float: left;
 }
 
-.navbar li a, .dropbtn, .newlist, .dellist{
+.navbar li a, .dropbtn, .newlist, .dellist, .restorebuttons{
     display: inline-block;
     color: #f2f2f2;
     text-align: center;
@@ -124,6 +124,34 @@ li.dropdown {
 .dropdown:hover .dropdown-content, .stayonfocus:focus-within{
     display: block;
 }
+
+.navbar .restorebuttons img{
+	display: block;
+	max-height: 1em;
+	filter:brightness(0.4);
+}
+
+.navbar #backward img{
+	padding-top:2px;
+}
+.navbar #forward img{
+	padding-bottom:2px;
+}
+
+.navbar #backward{
+	padding-right: 5px;	
+	padding-left: 10px;	
+}
+
+.navbar #forward{
+	padding-left: 5px;
+	padding-right: 10px
+}
+
+.navbar .restorebuttons:hover img{
+	filter: brightness(0);
+}
+
 
 .IE {
    display: none;
@@ -623,7 +651,7 @@ button:hover {
 
 
  /* When the screen is less than 600 pixels wide, hide all links, except for the first one ("Home"). Show the link that contains should open and close the topnav (.icon) */
-@media screen and (max-width: 990px) {
+@media screen and (max-width: 1010px) {
 	
 
 	.navbar li:not(.show){display: none;}

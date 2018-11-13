@@ -43,8 +43,8 @@ function Tier(num, Name, Unterart, Art, Unterserie, Serie, Untersektion, Sektion
 var dummyTier = new Tier();
 var timeout = 500;
 var dataversion = '1.3'; //Daten-Format Version
-var defaultId1 = "0.8554224974327433"; //Werte der Default-Liste
-var defaultId2 = "0.23182882324421072"; //Werte der Default-Liste
+var defaultId1 = "3"; //Werte der Default-Liste
+var defaultId2 = "5"; //Werte der Default-Liste
 }
 
 if(localStorage.TiereMeta && localStorage.Tiere && localStorage.delTiere){ //Daten einlesen von localStorage...
@@ -508,12 +508,13 @@ function DataInput(){ // Code für die Verwalten-Seite
 	if(firstvisit.verwalten){
 		document.getElementById("firstInfoIndex").style.display = "block";
 	}
-
 	var tbl = document.getElementById("tiere");
 	var th = Array.from(document.getElementsByTagName("th")); //Alle th Elemente in Array
 	th.shift(); //Leeres Platzhalterfeld für +/- Button entfernen
 	//var sorters = ["num","Art","Gattung","Unterfamilie","Familie","Unterordnung","Ordnung","Klasse","Stamm","Gruppe","bildlink","bildinfo","Merkmale","link"];
 	var sorters = th.map(elem => elem.className);
+	var currentsorter = "num";
+	var tableready = false;
 	
 	Inputlist(true);
 	
@@ -547,6 +548,7 @@ function DataInput(){ // Code für die Verwalten-Seite
 	});
 	
 	function Inputlist(initial = true, alleTiere, sorter = "num"){ 
+		currentsorter = sorter;
 		setTimeout(function() {
 			alleTiere = alleTiere || Tiere.concat(delTiere); //wenn alleTiere gegeben, dann alleTiere sonst alleTiere = Tiere.concat(delTiere)
 			if(initial){
@@ -620,7 +622,7 @@ function DataInput(){ // Code für die Verwalten-Seite
 					}
 					td.appendChild(input);
 				}
-			}
+			} tableready = true;
 		},timeout);
 	}
 	
@@ -641,12 +643,67 @@ function DataInput(){ // Code für die Verwalten-Seite
 		}
 	}
 	
+	var backup = [];
+	var forwardup = [];
+	function backupupdate(array,scroll="false"){ //Der derzeitige Zustand wird zum array hinzugefügt. Array wird auf 5 Einträge begrenzt.
+		var tempTiere = Tiere.map(function(el){return {...el};}); //der ...irgendwas move heist spread syntax und ist notwendig um die objekte zu klonen anstatt nur referenzen zu erzeugen.
+		var tempdelTiere = delTiere.map(function(el){return {...el};});
+		var last = {Tiere: [...tempTiere], delTiere: [...delTiere], scroll: scroll};
+		array.unshift(last);
+		array.splice(5);
+		if(array === backup){
+			document.getElementById("backward").firstChild.style.filter = "brightness(1)";
+		}else if(array ===forwardup){
+			document.getElementById("forward").firstChild.style.filter = "brightness(1)";
+		}
+	}
+	
+	function restore(fromarray, toarray){ //Der derzeitige Zustand wird im fromarray gespeichert, der erste Eintrag des toarray wird wiederhergestellt
+		if(toarray[0]){
+			backupupdate(fromarray,toarray[0].scroll);
+			Tiere = toarray[0].Tiere;
+			delTiere = toarray[0].delTiere;
+			if(toarray[0].scroll){
+				var yscroll = window.scrollY;
+				var xscroll = window.scrollX;
+				tableready = false;
+			}
+			newtable();
+			Inputlist(true,Tiere.concat(delTiere),currentsorter);
+			if(toarray[0].scroll){
+				doscroll(1);
+				function doscroll(counter){
+					setTimeout(function(){
+					if(!tableready && counter <= 50){
+						counter++;
+						doscroll(counter);
+					}else{
+						window.scrollTo(xscroll,yscroll);	
+					}
+					},250);
+				}
+			}
+			toarray.shift();
+			if (toarray.length == 0){
+				if(toarray === backup){
+					document.getElementById("backward").firstChild.style.filter = "brightness(0.4)";
+				}else if(toarray ===forwardup){
+					document.getElementById("forward").firstChild.style.filter = "brightness(0.4)";
+				}
+			}
+		}
+	}
+	
+	document.getElementById("backward").onclick = function(){restore(forwardup,backup);};
+	document.getElementById("forward").onclick = function() {restore(backup,forwardup);};
+	
 	function buttons(row) { //Zeile löschen und hinzufügen Button
 		var delbutton = document.createElement("button");
 		delbutton.type = "button";
 		delbutton.className = "dabuttons delbutton";
 		delbutton.title = "Diese Zeile löschen"
 		delbutton.addEventListener("click", function(event) {
+			backupupdate(backup,true);
 			changedList();
 			var row= this.parentNode.parentNode
 			var id = row.children[1].firstChild.value
@@ -749,15 +806,14 @@ function DataInput(){ // Code für die Verwalten-Seite
 		var rnewlist = true;
 			
 		if (!(defaultId1 == TiereMeta.Id1 && defaultId2 == TiereMeta.Id2)){
-			rnewlist = confirm("Sollten alle Einträge in dieser Liste unwiderruflich gelöscht und eine andere eigene Liste geladen werden?");
+			rnewlist = confirm("Sollten alle Einträge in dieser Liste gelöscht und eine andere eigene Liste geladen werden?");
 		}
 		
 		if(rnewlist){
 			document.getElementById("loadlist").onchange = function() {
+				backupupdate(backup);
 				var file = this.files[0];
-				var new_tbody = document.createElement('tbody');
-				var old_tbody = tbl.tBodies[0];
-				old_tbody.parentNode.replaceChild(new_tbody, old_tbody);
+				newtable();
 				loaddata(window.URL.createObjectURL(file));
 				Inputlist(true);
 				window.URL.revokeObjectURL(file);
@@ -773,7 +829,7 @@ function DataInput(){ // Code für die Verwalten-Seite
 		var rnewlist = true;
 	
 		if (!(defaultId1 == TiereMeta.Id1 && defaultId2 == TiereMeta.Id2)){
-			rnewlist = confirm("Sollten alle Einträge in der Liste unwiderruflich gelöscht und eine neue leere Liste erstellt werden?");
+			rnewlist = confirm("Sollten alle Einträge in der Liste gelöscht und eine neue leere Liste erstellt werden?");
 		}
 		
 		if (rnewlist){
@@ -781,6 +837,7 @@ function DataInput(){ // Code für die Verwalten-Seite
 			changedList();
 			TiereMeta.Maxid = 0;
 			TiereMeta.v = 0;
+			backupupdate(backup);
 			Tiere = [new Tier];
 			delTiere = [];
 			
@@ -892,6 +949,7 @@ function DataInput(){ // Code für die Verwalten-Seite
 	}
 	
 	document.getElementById("querysubmit").onclick = function(){
+		backupupdate(backup,scroll);
 		var queryselector1 = document.getElementById("queryselector1").value;
 		var queryselector2 = document.getElementById("queryselector2").value;
 		
@@ -940,6 +998,7 @@ function DataInput(){ // Code für die Verwalten-Seite
 	}
 	
 	document.getElementById("list2").onchange = function(){
+			backupupdate(backup);
 			var file = this.files[0];
 			changedList();
 			fetch(window.URL.createObjectURL(file))
@@ -952,7 +1011,8 @@ function DataInput(){ // Code für die Verwalten-Seite
 	}
 	
 	document.getElementById("dellist").onclick = function(){
-		if (confirm("Sollten alle Einträge in der Liste unwiderruflich gelöscht und die Standardliste wiederhergestellt werden?")){
+		if (confirm("Sollten alle Einträge in der Liste gelöscht und die Standardliste wiederhergestellt werden?")){
+			backupupdate(backup);
 			defaultlist();
 			newtable();
 			Inputlist();
@@ -974,6 +1034,7 @@ function DataInput(){ // Code für die Verwalten-Seite
 	
 	function newtable(){
 		var new_tbody = document.createElement('tbody');
+		new_tbody.id = "tbody";
 		var old_tbody = tbl.tBodies[0];
 		old_tbody.parentNode.replaceChild(new_tbody, old_tbody);
 	}
