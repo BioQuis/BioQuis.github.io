@@ -645,7 +645,7 @@ function DataInput(){ // Code für die Verwalten-Seite
 	
 	var backup = [];
 	var forwardup = [];
-	function backupupdate(array,scroll="false"){ //Der derzeitige Zustand wird zum array hinzugefügt. Array wird auf 5 Einträge begrenzt.
+	function backupupdate(array,scroll=false,forward = false){ //Der derzeitige Zustand wird zum array hinzugefügt. Array wird auf 5 Einträge begrenzt.
 		var tempTiere = Tiere.map(function(el){return {...el};}); //der ...irgendwas move heist spread syntax und ist notwendig um die objekte zu klonen anstatt nur referenzen zu erzeugen.
 		var tempdelTiere = delTiere.map(function(el){return {...el};});
 		var last = {Tiere: [...tempTiere], delTiere: [...delTiere], scroll: scroll};
@@ -653,14 +653,18 @@ function DataInput(){ // Code für die Verwalten-Seite
 		array.splice(5);
 		if(array === backup){
 			document.getElementById("backward").firstChild.style.filter = "brightness(1)";
+			if(!forward) {
+				forwardup = [];
+				document.getElementById("forward").firstChild.style.filter = "brightness(0.4)";
+			}
 		}else if(array ===forwardup){
 			document.getElementById("forward").firstChild.style.filter = "brightness(1)";
 		}
 	}
 	
-	function restore(fromarray, toarray){ //Der derzeitige Zustand wird im fromarray gespeichert, der erste Eintrag des toarray wird wiederhergestellt
+	function restore(fromarray, toarray, forward = false){ //Der derzeitige Zustand wird im fromarray gespeichert, der erste Eintrag des toarray wird wiederhergestellt
 		if(toarray[0]){
-			backupupdate(fromarray,toarray[0].scroll);
+			backupupdate(fromarray,toarray[0].scroll,forward);
 			Tiere = toarray[0].Tiere;
 			delTiere = toarray[0].delTiere;
 			if(toarray[0].scroll){
@@ -674,7 +678,7 @@ function DataInput(){ // Code für die Verwalten-Seite
 				doscroll(1);
 				function doscroll(counter){
 					setTimeout(function(){
-					if(!tableready && counter <= 50){
+					if(!tableready && counter <= 15){
 						counter++;
 						doscroll(counter);
 					}else{
@@ -695,7 +699,7 @@ function DataInput(){ // Code für die Verwalten-Seite
 	}
 	
 	document.getElementById("backward").onclick = function(){restore(forwardup,backup);};
-	document.getElementById("forward").onclick = function() {restore(backup,forwardup);};
+	document.getElementById("forward").onclick = function() {restore(backup,forwardup,true);};
 	
 	function buttons(row) { //Zeile löschen und hinzufügen Button
 		var delbutton = document.createElement("button");
