@@ -650,7 +650,7 @@ function DataInput(){ // Code für die Verwalten-Seite
 		var tempdelTiere = delTiere.map(function(el){return {...el};});
 		var last = {Tiere: [...tempTiere], delTiere: [...delTiere], scroll: scroll};
 		array.unshift(last);
-		array.splice(5);
+		array.splice(10);
 		if(array === backup){
 			document.getElementById("backward").firstChild.style.filter = "brightness(1)";
 			if(!forward) {
@@ -728,6 +728,7 @@ function DataInput(){ // Code für die Verwalten-Seite
 		addbutton.className = "dabuttons addbutton";
 		addbutton.title = "Neue Zeile unter dieser Zeile hinzufügen"
 		addbutton.addEventListener("click", function(event) {
+			backupupdate(backup,true);
 			Tiere.push(new Tier);
 			var newrow = tbl.tBodies[0].insertRow(row.rowIndex);
 			newrow.id = newrow.previousSibling.rowIndex +1;

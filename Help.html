@@ -54,6 +54,7 @@
 						<li class="toclistitem"><a class = "contentslink" href="#HListenEinen" title="Wie kann ich zwei Listen zu einer zusammenfügen?">Liste hinzufügen</a></li>
 						<li class="toclistitem"><a class = "contentslink" href="#HBedingung" title="Wie kann ich mehrere Einträge auf einmal bearbeiten?">Bedingung</a></li>
 						<li class="toclistitem"><a class = "contentslink" href="#HExportieren" title="Wie kann ich meine individuelle Liste als Datei speichern?">Exportieren</a></li>
+						<li class="toclistitem"><a class = "contentslink" href="#HRückgängig" title="Wie kann ich einen Bearbeitungsschritt wieder Rückgängig machen?">Bearbeitungsschritt zurück</a></li>
 						<li class="toclistitem"><a class = "contentslink" href="#HJson" title="Was ist eine .json Datei?">.json</a></li>
 						<li class="toclistitem"><a class = "contentslink" href="#HBioQuisJson" title="Was ist in der BioQuis_Liste.json Datei gespeichert?">BioQuis_Liste.json</a></li>
 						<li class="toclistitem"><a class = "contentslink" href="#HSortieren" title="Wie kann ich die Liste anders sortieren?">Liste sortieren</a></li>
@@ -131,6 +132,9 @@
 			
 			<h4 id="HExportieren">Wie kann ich meine individuelle Liste als Datei speichern?</h4>
 			<p class="HParagraph">Um eine individuelle Liste als Datei zu speichern "Exportieren" im Menü am oberen Rand der <a href="Verwalten.html" target="_blank">Liste</a> wählen. Die Datei wird nun als Download <a href="#HBioQuisJson">"BioQuis_Liste.json"</a> gespeichert.</p>	
+			
+			<h4 id="HRückgängig">Wie kann ich einen Bearbeitungsschritt wieder Rückgängig machen?</h4>
+			<p class="Hparagraph">Durch Klick auf <img class="HelpBFImg" alt="Rückgängig" src="graphics/backward.png"> am oberen Rand der <a href="Verwalten.html" target="_blank">Liste</a> können maximal die letzten 10 Veränderungen durch die Befehle "<a href="#HNeueListe">Neue Liste</a>", "<a href="#HEigeneListe">Eigene Liste</a>", "<a href="#HListenEinen">Liste hinzufügen</a>", "<a href="#HBedingung">Bedingung</a>", "<a href="#HZurücksetzen">Zurücksetzen &times;</a>" oder das <a href="#HLoeschen">löschen</a>/<a href="#HHinzufuegen">hinzufügen</a> einer Zeile rückgängig gemacht werden. Veränderungen die in einzelnen Feldern der Liste durch <a href="#HVeraendern">Eintragen in diesem Feld</a> gemacht wurden können dadurch nicht rückgängig gemacht werden. Durch Klick auf <img class="HelpBFImg" alt="Rückgängig" src="graphics/backward.png"> wird der letzte Zustand der Liste vor ausführen des letzten der oben genannten Befehle wiederhergestellt, es gehen also auch die in der Zwischenzeit durch direktes Eintragen in das Feld vorgenommene Änderungen verloren. Das Rückgängig machen eines Befehls wiederrum kann durch Klick auf <img class="HelpBFImg" alt="Rückgängig" src="graphics/forward.png"> im Menü am oberen Rand der Liste rückgängig gemacht werden.</p>
 			
 			<h4 id="HJson">Was ist eine .json Datei?</h4>
 			<p class="HParagraph">JSON steht für <b>J</b>ava<b>S</b>cript <b>O</b>bject <b>N</b>otation. Dabei handelt es sich um ein weit verbreitetes Datenformat in Textform. Der Vorteil dieses Formates liegt in diesem Fall darin das es mit jedem beliebigen Texteditor geöffnet und so auch von Menschen gelesen werden kann. Es gibt in jeder gängigen Programmiersprache Parser um JSON Dateien zu lesen, was zumindest theoretisch die Möglichkeit der Weiterverarbeitung der Liste mit anderen Programmen offen lässt. (<a href="https://de.wikipedia.org/wiki/JavaScript_Object_Notation">JSON in Wikipedia</a>.)</p>	

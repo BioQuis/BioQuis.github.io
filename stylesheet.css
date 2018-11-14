@@ -148,7 +148,7 @@ li.dropdown {
 	padding-right: 10px
 }
 
-.navbar .restorebuttons:hover img{
+.navbar .restorebuttons:hover img, .navbar .smalldisplay img:hover{
 	filter: brightness(0);
 }
 
@@ -235,18 +235,19 @@ table .tiertable{
 th { 
 	border: 1px solid #ddd;
 	cursor: pointer;
+	overflow: hidden;
 }
 
-th, .tiertable td{width: 110px;}
+th, .tiertable td{width: 110px; max-width: 110px; min-width: 110px;}
 
-.thbutton{width:29px; border: none; padding: 1px;}
+.thbutton{width:29px; max-width: 29px; min-width: 29px; border: none; padding: 1px;}
 @supports (-moz-appearance:none) {
-    .thbutton { width: 28px;} 
+    .thbutton { width: 28px; max-width: 28px; min-width: 28px;} 
 }
 
-.num{width: 38px;}
-.Name{width: 200px}
-.BildInfo, .Merkmale, .Info{width:500px;}
+.num{width: 38px; max-width: 38px; min-width: 38px;}
+.Name{width: 200px; max-width: 200px; min-width: 200px;}
+.BildInfo, .Merkmale, .Info{width:500px; max-width: 500px; min-width: 500px;}
 
 .thsmalltext{font-size: 80%;}
 
@@ -551,6 +552,12 @@ button:hover {
 	max-width: 100%;
 }
 
+.HelpBFImg{
+	display: inline-block;
+	height: 0.9em;
+	filter: brightness(0);
+}
+
 .HTable{
 	display: table;
 	margin: 1em auto;
@@ -670,6 +677,16 @@ button:hover {
   .navbar *{
 	border: 0px;
   }
+  
+	.navbar #backward{
+		padding-right: 16px;	
+		padding-left: 16px;	
+	}
+
+	.navbar #forward{
+		padding-left: 16px;
+		padding-right: 16px;
+	}
   
 	#Submit, #Kontakt{
 	
