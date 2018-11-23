@@ -379,19 +379,26 @@ function quiz(){ //Code für die Quiz-Seite
 	});
 	
 	{//Antwortbuttons richtig/falsch
-	document.getElementById("richtig").onclick = function(){
-		delTiere.push(Tiere[randnum]);
-		Tiere.splice(randnum,1);
-		if (!darwinLinne){
-			richtigeA++;
+	var richtigbuttons = document.querySelectorAll("button[name='richtig']");
+	for (i=0;i<richtigbuttons.length;i++){
+		richtigbuttons[i].onclick = function(){
+			console.log("wtf?");
+			delTiere.push(Tiere[randnum]);
+			Tiere.splice(randnum,1);
+			if (!darwinLinne){
+				richtigeA++;
+			}
+			nextround();
 		}
-		nextround();
 	}
-	document.getElementById("falsch").onclick = function(){
-		if (!darwinLinne){
-			falscheA++;
+	var falschbuttons = document.querySelectorAll("button[name='falsch']");
+	for (i=0;i<falschbuttons.length;i++){
+		falschbuttons[i].onclick = function(){
+			if (!darwinLinne){
+				falscheA++;
+			}
+			nextround();
 		}
-		nextround();
 	}
 	}
 	
