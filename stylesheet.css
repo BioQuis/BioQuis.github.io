@@ -428,7 +428,6 @@ button:hover {
 	margin-top: 0.3em;
 	margin-bottom: 5px;
 	border-collapse:collapse;
-
 }
 
 .antworttext td{
@@ -795,6 +794,8 @@ button:hover {
 	
 	.antworttext td{
 		display: block;
+		word-break: break-word;
+		overflow-wrap: break-word;
 	}
 	
 	.antworttext .leftcolumn{
@@ -807,9 +808,6 @@ button:hover {
 		padding-top: 0;
 	}
 	
-	#rofunten {
-		display: none;
-	}
 	#rofoben {
 		display: block;
 	}

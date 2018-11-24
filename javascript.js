@@ -342,7 +342,12 @@ function quiz(){ //Code für die Quiz-Seite
 						for (var elem of splited){
 							elem = elem.trim();
 							var link = document.createElement("a");
-							link.innerHTML = elem;
+							var splitted = elem.split("");
+							var iHtml = "";
+							for (var ch of splitted){ // zero-with-space nach jedem char einfügen damit linebreak ei langen links
+								iHtml = iHtml+ch+"&#8203;";
+							}
+							link.innerHTML = iHtml;
 							link.href = elem;
 							link.target ="_blank"
 							cell2.appendChild(link);
@@ -382,7 +387,6 @@ function quiz(){ //Code für die Quiz-Seite
 	var richtigbuttons = document.querySelectorAll("button[name='richtig']");
 	for (i=0;i<richtigbuttons.length;i++){
 		richtigbuttons[i].onclick = function(){
-			console.log("wtf?");
 			delTiere.push(Tiere[randnum]);
 			Tiere.splice(randnum,1);
 			if (!darwinLinne){
