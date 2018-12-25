@@ -87,17 +87,19 @@ if(parseFloat(TiereMeta.dv) < 1.3){  //Daten-Format Update Zusätzliche Felder u
 	};
 	
 	if(parseFloat(TiereMeta.dv) < 1.3){
-		function LinkToInfo(elem){
-			elem.Info = elem.Link;
-			elem.Link = "";
-		};
-		Tiere.forEach(LinkToInfo);
-		delTiere.forEach(LinkToInfo);
+		if(parseFloat(TiereMeta.dv) < 1.25){
+			function LinkToInfo(elem){
+				elem.Info = elem.Link;
+				elem.Link = "";
+			};
+			Tiere.forEach(LinkToInfo);
+			delTiere.forEach(LinkToInfo);
+		}
 		
 		function fillit(elem){
 			for(el in dummyTier){
-				if(!elem[el]){ //funktioniert nicht mit elem.el weil el string?
-					elem[el] = ""; //funktioniert nicht mit elem.el weil el string?
+				if(!elem[el]){ 
+					elem[el] = ""; 
 				}
 			};
 		}
