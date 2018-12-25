@@ -47,7 +47,7 @@ var defaultId1 = "3"; //Werte der Default-Liste
 var defaultId2 = "5"; //Werte der Default-Liste
 }
 
-if(localStorage.TiereMeta && localStorage.Tiere && localStorage.delTiere){ //Daten einlesen von localStorage...
+if(localStorage.TiereMeta && localStorage.Tiere && localStorage.delTiere && JSON.parse(localStorage.TiereMeta).id1 <= 1){ //Daten einlesen von localStorage...
 	var Tiere = JSON.parse(localStorage.Tiere);
 	var delTiere = JSON.parse(localStorage.delTiere);
 	var TiereMeta = JSON.parse(localStorage.TiereMeta);
