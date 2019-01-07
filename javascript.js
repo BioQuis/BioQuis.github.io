@@ -44,10 +44,10 @@ var dummyTier = new Tier();
 var timeout = 500;
 var dataversion = '1.3'; //Daten-Format Version
 var defaultId1 = "3"; //Werte der Default-Liste
-var defaultId2 = "5"; //Werte der Default-Liste
+var defaultId2 = "7"; //Werte der Default-Liste
 }
 
-if(localStorage.TiereMeta && localStorage.Tiere && localStorage.delTiere && JSON.parse(localStorage.TiereMeta).id1 <= 1){ //Daten einlesen von localStorage...
+if(localStorage.TiereMeta && localStorage.Tiere && localStorage.delTiere && JSON.parse(localStorage.TiereMeta).Id2 <= 1){ //Daten einlesen von localStorage...
 	var Tiere = JSON.parse(localStorage.Tiere);
 	var delTiere = JSON.parse(localStorage.delTiere);
 	var TiereMeta = JSON.parse(localStorage.TiereMeta);
@@ -137,7 +137,6 @@ function loaddata(url){ //Laden von Daten
 			});
 			if (danger==true){
 				alert("Die Datei wurde untersucht und enthält verdächtige Elemente, die Verwendung dieser Datei auf BioQuis stellt möglicherweise eine Gefahr für deinen Computer und/oder deine Privatsphäre dar. Die Datei wurde deshalb nicht geladen. Du kannst die Datei mit einem Texteditor öffnen und die potentiell gefährlichen Script Elemente entfernen.");
-				console.log("erwischt!")
 			}
 			if (danger==false){
 				Tiere = TierSource.Tiere;
@@ -187,7 +186,7 @@ function dellistdisplay(){ //die Anzeige des Zurücksetzen button wird der Bilds
 }
 
 function init (){ //Prüfen auf eigene Liste
-	if(!(localStorage.TiereMeta && localStorage.Tiere && localStorage.delTiere) || (TiereMeta.Id1 == defaultId1 && TiereMeta.Id2 == defaultId2)){ //Wenn man das erste mal die Seite besucht, oder die Default Liste eingestellt hat
+	if (!(localStorage.TiereMeta && localStorage.Tiere && localStorage.delTiere) || JSON.parse(localStorage.TiereMeta).Id2>1) {// || (TiereMeta.Id1 == defaultId1 && TiereMeta.Id2 == defaultId2)){ //Wenn man das erste mal die Seite besucht, oder die Default Liste eingestellt hat
 		document.getElementById("dellist").style.display = "none";
 	}
 	
