@@ -52,9 +52,11 @@ if(localStorage.TiereMeta && localStorage.Tiere && localStorage.delTiere && JSON
 	var delTiere = JSON.parse(localStorage.delTiere);
 	var TiereMeta = JSON.parse(localStorage.TiereMeta);
 	checkVersion();
+	console.log("hier1");
 } else{ //...oder von default-Liste
 	var TiereMeta, Tiere, delTiere;
 	defaultlist();
+	console.log("hier2");
 }
 
 if(localStorage.firstvisit){ //erstmaligen Besuch laden bzw erstellen
