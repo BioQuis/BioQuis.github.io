@@ -44,7 +44,7 @@ var dummyTier = new Tier();
 var timeout = 500;
 var dataversion = '1.3'; //Daten-Format Version
 var defaultId1 = "3"; //Werte der Default-Liste
-var defaultId2 = "8"; //Werte der Default-Liste
+var defaultId2 = "9"; //Werte der Default-Liste
 }
 
 if(localStorage.TiereMeta && localStorage.Tiere && localStorage.delTiere && JSON.parse(localStorage.TiereMeta).Id2 <= 1){ //Daten einlesen von localStorage...
